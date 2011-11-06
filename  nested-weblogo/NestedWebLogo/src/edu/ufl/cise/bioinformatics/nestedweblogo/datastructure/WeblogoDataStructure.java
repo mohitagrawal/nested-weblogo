@@ -1,4 +1,4 @@
-package edu.ufl.cise.bioinformatics;
+package edu.ufl.cise.bioinformatics.nestedweblogo.datastructure;
 
 import java.util.ArrayList;
 
