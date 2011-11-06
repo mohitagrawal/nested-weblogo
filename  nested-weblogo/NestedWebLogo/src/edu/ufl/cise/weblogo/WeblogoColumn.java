@@ -4,7 +4,7 @@ import java.util.Map;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class WeblogoColumn.
+ * The Clastests WeblogoColumn.
  */
 public class WeblogoColumn {
 	
