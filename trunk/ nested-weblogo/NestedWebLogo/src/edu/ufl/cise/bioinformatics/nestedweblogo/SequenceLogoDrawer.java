@@ -14,7 +14,7 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import edu.ufl.cise.bioinformatics.nestedweblogo.WeblogoColumn;
+import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoColumn;
 
 public class SequenceLogoDrawer extends JPanel {
 	/**
