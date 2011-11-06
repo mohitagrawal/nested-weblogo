@@ -1,5 +1,6 @@
 package edu.ufl.cise.bioinformatics.nestedweblogo.datastructure;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 // TODO: Auto-generated Javadoc
@@ -9,14 +10,14 @@ import java.util.Map;
 public class WeblogoColumn {
 	
 	/** The characters map. */
-	private Map<String,Integer> charactersMap;
+	private LinkedHashMap<String,Float> charactersMap;
 
 	/**
 	 * Gets the characters map.
 	 *
 	 * @return the characters map
 	 */
-	public Map<String, Integer> getCharactersMap() {
+	public LinkedHashMap<String, Float> getCharactersMap() {
 		return charactersMap;
 	}
 
@@ -25,7 +26,7 @@ public class WeblogoColumn {
 	 *
 	 * @param charactersMap the characters map
 	 */
-	public void setCharactersMap(Map<String, Integer> charactersMap) {
+	public void setCharactersMap(LinkedHashMap<String, Float> charactersMap) {
 		this.charactersMap = charactersMap;
 	}
 	

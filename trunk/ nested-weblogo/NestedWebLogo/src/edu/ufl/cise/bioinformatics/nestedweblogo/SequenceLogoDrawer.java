@@ -34,12 +34,12 @@ public class SequenceLogoDrawer extends JPanel {
 		
 		WeblogoColumn webLogo = new WeblogoColumn();
 
-		Map<String, Integer> charactersMap = new LinkedHashMap<String, Integer>();
+		LinkedHashMap<String, Float> charactersMap = new LinkedHashMap<String, Float>();
 		
-		charactersMap.put("A", 1);
-		charactersMap.put("C", 2);
-		charactersMap.put("G", 3);
-		charactersMap.put("T", 4);
+		charactersMap.put("A", 1.3f);
+		charactersMap.put("C", 2.5f);
+		charactersMap.put("G", 1.2f);
+		charactersMap.put("T", 9.5f);
 		
 		webLogo.setCharactersMap(charactersMap);
 		
@@ -56,7 +56,12 @@ public class SequenceLogoDrawer extends JPanel {
 		columnList.add(webLogo);
 		columnList.add(webLogo);
 		columnList.add(webLogo);
-		
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
 		
 	}	
 	
@@ -77,7 +82,7 @@ public class SequenceLogoDrawer extends JPanel {
 		
 		Graphics2D graphics2DObject = (Graphics2D) g;
 		
-		drawWebLogo(graphics2DObject, columnList, 10, getHeight()-10);
+		drawWebLogo(graphics2DObject, columnList, 50, getHeight()-50);
 		
 	}
 	
@@ -90,7 +95,7 @@ public class SequenceLogoDrawer extends JPanel {
 	
 	private void drawColumn(Graphics2D graphics2DObject, WeblogoColumn column, int x, int maxHeight){
 		
-		Map<String, Integer> charactersInColumnMap = column.getCharactersMap();
+		Map<String, Float> charactersInColumnMap = column.getCharactersMap();
 		
 		Set<String> characters = charactersInColumnMap.keySet();
 
@@ -98,7 +103,7 @@ public class SequenceLogoDrawer extends JPanel {
 		
 		for (String character : characters) {
 			
-			int characterHeight = charactersInColumnMap.get(character);
+			float characterHeight = charactersInColumnMap.get(character);
 			
 			AffineTransform attributeTransform = AffineTransform.getScaleInstance(1, characterHeight);
 			
