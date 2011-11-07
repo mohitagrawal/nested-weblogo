@@ -36,12 +36,22 @@ public class WeblogoColumn {
 	 * @param charactersMap the characters map
 	 */
 	public void setCharactersMap(LinkedHashMap<String, Double> charactersMap) {
-		this.charactersMap = charactersMap;
+		
+		Iterator mapIter = charactersMap.keySet().iterator();
+		Double value;
+		String key;
+		while(mapIter.hasNext())
+		{
+			key = (String) mapIter.next();
+			value = charactersMap.get(key);
+			this.charactersMap.put(key, value);
+		}
 	}
 	
 	public void printCharactersMap()
 	{
-		Iterator mapIter = charactersMap.entrySet().iterator();
+		Iterator mapIter = charactersMap.keySet().iterator();
+		System.out.println("Map Size = "+charactersMap.size());
 		while(mapIter.hasNext())
 		{
 			String key = (String) mapIter.next();

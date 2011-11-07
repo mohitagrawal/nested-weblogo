@@ -51,15 +51,13 @@ public class WeblogoDataStructure {
 		{			
 			frequency = 1;
 			key = sequence[i].charAt(index);
-			if((!frequencyTable.isEmpty()))
-			{
-				if( (frequencyTable.containsKey(key)))
+			if((frequencyTable.containsKey(key+"")))
 				{		
-					frequency = frequencyTable.get(sequence[i].charAt(index));
+					frequency = frequencyTable.get(key+"");
 					frequency++;
 				}
 				frequencyTable.put(key+"", frequency);
-			}
+			
 		}
 	}
 	public void calculateHeight(String[] sequence)
@@ -71,10 +69,13 @@ public class WeblogoDataStructure {
 			Double uncertanityAtIndex = 0.0, errorFactor = 0.0, frequency;
 			//iterate over frequency table map and add it
 			buildFrequencyTable(i, sequence);
-			Iterator mapIter = frequencyTable.entrySet().iterator();
+			Iterator mapIter = frequencyTable.keySet().iterator();
+			System.out.println("Size of frequency table - "+frequencyTable.size());
 			while(mapIter.hasNext())
 			{
-				frequency =  frequencyTable.get(mapIter.next());			
+				String key =(String) mapIter.next();
+				frequency =  frequencyTable.get(key);	
+				System.out.println(frequency);
 				uncertanityAtIndex = frequency * Math.log(frequency) + uncertanityAtIndex; 	
 			}
 			uncertanityAtIndex = uncertanityAtIndex * -1 ;
@@ -84,6 +85,7 @@ public class WeblogoDataStructure {
 			informationAtIndex = 2 - (uncertanityAtIndex + errorFactor);
 			
 			//multiply frequency of key with informationAtIndex
+			mapIter = frequencyTable.keySet().iterator();
 			while(mapIter.hasNext())
 			{
 				String key = (String) mapIter.next();
@@ -101,9 +103,12 @@ public class WeblogoDataStructure {
 	public void printHeightTable()
 	{
 		int i = 0;
+		System.out.println("Total Positions - "+columnList.size());
 		while(i < columnList.size())
 		{
-			
+			System.out.println("Index"+i);
+			columnList.get(i).printCharactersMap();
+			i++;
 			//String key = (String) mapIter.next();
 		//	System.out.println("Character - "+key + " Height - "+map.get(key));						 	
 		}
