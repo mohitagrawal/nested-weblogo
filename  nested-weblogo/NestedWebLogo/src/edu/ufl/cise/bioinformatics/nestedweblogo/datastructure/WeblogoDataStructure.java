@@ -107,7 +107,7 @@ public class WeblogoDataStructure {
 				frequency = frequencyTable.get(key);
 				
 				//** To check for negative information frequency
-				//if(informationAtIndex>=0)
+				if(informationAtIndex>=0)
 					tempMap.put(key, frequency*informationAtIndex);						
 			}
 			WeblogoColumn column = new WeblogoColumn();
