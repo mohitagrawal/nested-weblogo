@@ -62,27 +62,42 @@ public class WeblogoDataStructure {
 	}
 	public void calculateHeight(String[] sequence)
 	{
+		// value of s for dna is 4 and protein is 20
+		int s;
+		//source wiki
+		if(sequenceType.equals("DNA"))
+			s = 4;
+		else
+			s = 20;
+		//calculate error factor
+		double errorFactor;
+		errorFactor = (s -1)/(2*Math.log(2)*sequence.length);
+		System.out.println("Error Factor - "+errorFactor);
 		for(int i = 0;i< sequence[0].length();i++)
 		{
 			LinkedHashMap<String, Double> tempMap= new LinkedHashMap<String, Double>();
 			//calculate uncertainiy at a index
-			Double uncertanityAtIndex = 0.0, errorFactor = 0.0, frequency;
+			Double uncertanityAtIndex = 0.0, frequency;
 			//iterate over frequency table map and add it
 			buildFrequencyTable(i, sequence);
 			Iterator mapIter = frequencyTable.keySet().iterator();
-			System.out.println("Size of frequency table - "+frequencyTable.size());
+			//System.out.println("Size of frequency table - "+frequencyTable.size());
 			while(mapIter.hasNext())
 			{
 				String key =(String) mapIter.next();
 				frequency =  frequencyTable.get(key);	
-				System.out.println(frequency);
-				uncertanityAtIndex = frequency * Math.log(frequency) + uncertanityAtIndex; 	
+				//System.out.println(frequency);
+				uncertanityAtIndex = frequency * (Math.log(frequency)/Math.log(2)) + uncertanityAtIndex; 	
 			}
 			uncertanityAtIndex = uncertanityAtIndex * -1 ;
-					
+			//calculate error factor
 			//calculate information at a index
 			double informationAtIndex;
-			informationAtIndex = 2 - (uncertanityAtIndex + errorFactor);
+			if(sequenceType.equals("DNA"))
+				informationAtIndex = 2 - (uncertanityAtIndex + errorFactor);
+			else
+				// log 20 base 2
+				informationAtIndex = (Math.log(20)/Math.log(2)) - (uncertanityAtIndex + errorFactor);
 			
 			//multiply frequency of key with informationAtIndex
 			mapIter = frequencyTable.keySet().iterator();
@@ -90,7 +105,10 @@ public class WeblogoDataStructure {
 			{
 				String key = (String) mapIter.next();
 				frequency = frequencyTable.get(key);
-				tempMap.put(key, frequency*informationAtIndex);						
+				
+				//** To check for negative information frequency
+				//if(informationAtIndex>=0)
+					tempMap.put(key, frequency*informationAtIndex);						
 			}
 			WeblogoColumn column = new WeblogoColumn();
 			column.setCharactersMap(tempMap);
@@ -106,7 +124,7 @@ public class WeblogoDataStructure {
 		System.out.println("Total Positions - "+columnList.size());
 		while(i < columnList.size())
 		{
-			System.out.println("Index"+i);
+			System.out.println("Index - "+i);
 			columnList.get(i).printCharactersMap();
 			i++;
 			//String key = (String) mapIter.next();
