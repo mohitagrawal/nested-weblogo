@@ -3,6 +3,7 @@ package edu.ufl.cise.bioinformatics.nestedweblogo.datastructure;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 // TODO: Auto-generated Javadoc
@@ -14,7 +15,7 @@ public class WeblogoColumn {
 	/** The characters map. */
 	
 	
-	private LinkedHashMap<String,Double> charactersMap;
+	private TreeMap<String,Double> charactersMap;
 
 	/**
 	 * Gets the characters map.
@@ -24,9 +25,9 @@ public class WeblogoColumn {
 	
 	public WeblogoColumn()
 	{
-		charactersMap = new LinkedHashMap<String, Double>();	
+		charactersMap = new TreeMap<String, Double>();	
 	}
-	public LinkedHashMap<String, Double> getCharactersMap() {
+	public TreeMap<String, Double> getCharactersMap() {
 		return charactersMap;
 	}
 
@@ -35,9 +36,11 @@ public class WeblogoColumn {
 	 *
 	 * @param charactersMap the characters map
 	 */
+	//
 	public void setCharactersMap(LinkedHashMap<String, Double> charactersMap) {
 		
-		Iterator mapIter = charactersMap.keySet().iterator();
+		this.charactersMap.putAll(charactersMap);
+		/*Iterator mapIter = charactersMap.keySet().iterator();
 		Double value;
 		String key;
 		while(mapIter.hasNext())
@@ -45,7 +48,7 @@ public class WeblogoColumn {
 			key = (String) mapIter.next();
 			value = charactersMap.get(key);
 			this.charactersMap.put(key, value);
-		}
+		}*/
 	}
 	
 	public void printCharactersMap()
