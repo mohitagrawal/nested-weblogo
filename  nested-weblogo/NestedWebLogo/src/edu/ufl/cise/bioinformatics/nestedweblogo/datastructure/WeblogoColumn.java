@@ -25,7 +25,8 @@ public class WeblogoColumn {
 	
 	public WeblogoColumn()
 	{
-		charactersMap = new TreeMap<String, Double>();	
+		 
+			
 	}
 	public TreeMap<String, Double> getCharactersMap() {
 		return charactersMap;
@@ -37,8 +38,11 @@ public class WeblogoColumn {
 	 * @param charactersMap the characters map
 	 */
 	//
-	public void setCharactersMap(LinkedHashMap<String, Double> charactersMap) {
+	public void setCharactersMap(TreeMap<String, Double> charactersMap) {
 		
+		//To make valuecomparator object working.
+		ValueComparator bvc =  new ValueComparator(charactersMap);
+		this.charactersMap = new TreeMap<String, Double>(bvc);
 		this.charactersMap.putAll(charactersMap);
 		/*Iterator mapIter = charactersMap.keySet().iterator();
 		Double value;

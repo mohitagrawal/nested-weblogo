@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.SequenceType;
 
@@ -75,7 +76,7 @@ public class WeblogoDataStructure {
 		System.out.println("Error Factor - "+errorFactor);
 		for(int i = 0;i< sequence[0].length();i++)
 		{
-			LinkedHashMap<String, Double> tempMap= new LinkedHashMap<String, Double>();
+			TreeMap<String, Double> tempMap= new TreeMap<String, Double>();
 			//calculate uncertainiy at a index
 			Double uncertanityAtIndex = 0.0, frequency;
 			//iterate over frequency table map and add it
