@@ -51,7 +51,7 @@ public class WeblogoColumn {
 	public void printCharactersMap()
 	{
 		Iterator mapIter = charactersMap.keySet().iterator();
-		System.out.println("Map Size = "+charactersMap.size());
+	//	System.out.println("Map Size = "+charactersMap.size());
 		while(mapIter.hasNext())
 		{
 			String key = (String) mapIter.next();
