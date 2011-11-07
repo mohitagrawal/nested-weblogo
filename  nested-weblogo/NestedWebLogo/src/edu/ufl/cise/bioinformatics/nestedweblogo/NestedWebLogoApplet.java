@@ -8,11 +8,14 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 
 
 public class NestedWebLogoApplet extends JApplet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	SequenceLogoDrawer display;
 	
 	@Override	
@@ -27,6 +30,10 @@ public class NestedWebLogoApplet extends JApplet {
 		display.validate();
 		
 		getContentPane().add(display);
+		
+		setSize(480, 480);
+		setMinimumSize(new Dimension(100,100));
+		setMaximumSize(new Dimension(500,500));
 	}
 	
 	public static void main(String[] argv) {
@@ -39,11 +46,14 @@ public class NestedWebLogoApplet extends JApplet {
 			}
 		});
 
-		JApplet applet = new NestedWebLogoApplet();
+		SequenceLogoDrawer logoDrawer = new SequenceLogoDrawer();
+		logoDrawer.init();
 
-		frame.getContentPane().add(BorderLayout.CENTER, applet);
+		frame.getContentPane().add(logoDrawer);
 
 		frame.setVisible(true);
+		
+		frame.setSize(600, 600);
 	}
 
 }
