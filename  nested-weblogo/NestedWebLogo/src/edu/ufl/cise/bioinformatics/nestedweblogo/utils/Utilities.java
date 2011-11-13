@@ -1,4 +1,4 @@
-package edu.ufl.cise.bioinformatics.nestedweblogo;
+package edu.ufl.cise.bioinformatics.nestedweblogo.utils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
