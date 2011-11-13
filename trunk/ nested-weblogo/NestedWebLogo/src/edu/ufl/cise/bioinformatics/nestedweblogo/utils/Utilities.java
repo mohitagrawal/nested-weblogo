@@ -6,7 +6,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoDataStructure;
+
 public class Utilities {
+	
+	//Main workhorse routine to get weblogodatastructure from fasta file
+	public WeblogoDataStructure getWeblogoDS(String filepath)
+	
+	{
+		String[] seqArray = parseFasta(filepath);
+		WeblogoDataStructure weblogoData = new WeblogoDataStructure();
+		weblogoData.calculateHeight(seqArray);
+		return weblogoData;
+	}
 	
 	//Parses fasta file and returns string array of sequences.
 	public String[] parseFasta(String filepath)
