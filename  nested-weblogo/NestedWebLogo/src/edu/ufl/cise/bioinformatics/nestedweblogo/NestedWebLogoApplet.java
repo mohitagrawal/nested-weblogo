@@ -31,9 +31,9 @@ public class NestedWebLogoApplet extends JApplet {
 		
 		getContentPane().add(display);
 		
-		setSize(480, 480);
-		setMinimumSize(new Dimension(100,100));
-		setMaximumSize(new Dimension(500,500));
+		setSize(800, 800);
+//		setMinimumSize(new Dimension(100,100));
+//		setMaximumSize(new Dimension(500,500));
 	}
 	
 	public static void main(String[] argv) {
@@ -53,7 +53,7 @@ public class NestedWebLogoApplet extends JApplet {
 
 		frame.setVisible(true);
 		
-		frame.setSize(600, 600);
+//		frame.setSize(600, 600);
 	}
 
 }
