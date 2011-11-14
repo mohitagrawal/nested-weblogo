@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Label;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.font.TextAttribute;
@@ -22,14 +24,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoColumn;
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoDataStructure;
+import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
 
-public class SequenceLogoDrawer extends JPanel implements MouseWheelListener {
+public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, ActionListener {
 	/**
 	 * 
 	 */
@@ -44,8 +52,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener {
 
 	ArrayList<WeblogoColumn> columnList = new ArrayList<WeblogoColumn>();
 	
-	private int preferredSizeWidth = 800;
-	private int preferredSizeHeight = 800;
+	private int preferredSizeWidth = 600;
+	private int preferredSizeHeight = 600;
 	
 	private enum LineType {
 		HORIZONTAL, VERTICAL
@@ -117,6 +125,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener {
 	@Override
 	public void paint(Graphics g) {
 
+		setBackground(Color.WHITE);
+		
 		super.paintComponent(g);
 		
 
@@ -220,10 +230,10 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener {
 			rightXPosition  += (maximumWidth/(columnList.size()));
 		}
 		
-		System.out.println("leftXPosition  : "+leftXPosition);
+		/*System.out.println("leftXPosition  : "+leftXPosition);
 		System.out.println("rightXPosition : "+rightXPosition);
 		System.out.println("bottomYPosition: "+bottomYPosition);
-		System.out.println("topYPosition   : "+topYPosition);
+		System.out.println("topYPosition   : "+topYPosition);*/
 		
 		boundry.setLeftXPosition(leftXPosition);
 		boundry.setRightXPosition(rightXPosition);
@@ -333,7 +343,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener {
 	}
 	
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Text attributes");
+		JFrame frame = new JFrame("Nested Web Logo");
 		
 		SequenceLogoDrawer charTest = new SequenceLogoDrawer();
 		charTest.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 36));
@@ -355,6 +365,80 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener {
 		frame.setSize(new Dimension(600, 600));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
+		
+		
+		// Create the menu bar
+		JMenuBar menuBar = new JMenuBar();
+
+		// Create a menu
+		JMenu menu = new JMenu("Weblogo");
+		menuBar.add(menu);
+		
+		// Create a menu item
+		JMenuItem item = new JMenuItem("Create");
+		item.addActionListener(charTest);
+		menu.add(item);
+		
+		menu = new JMenu("Nested Weblogo");
+		menuBar.add(menu);
+		
+		item = new JMenuItem("Add");
+		item.addActionListener(charTest);
+		menu.add(item);
+		
+		menu = new JMenu("Help");
+		menuBar.add(menu);
+		
+		item = new JMenuItem("About");
+		item.addActionListener(charTest);
+		menu.add(item);
+
+		// Install the menu bar in the frame
+		frame.setJMenuBar(menuBar);
+		
 //		frame.
+	}
+
+	public void getFastaFilePathFromInputBox(){
+		JFileChooser chooser = new JFileChooser();
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+	        "fasta", "fasta","txt");
+	    chooser.setFileFilter(filter);
+	    int returnVal = chooser.showOpenDialog(null);
+	    if(returnVal == JFileChooser.APPROVE_OPTION) {
+	       System.out.println("You chose to open this file: " +
+	            chooser.getSelectedFile().getAbsolutePath());
+	    }
+	    
+	    Utilities utilities = new Utilities();
+	    
+	    String path = chooser.getSelectedFile().getAbsolutePath();
+	    path = path.replace('\\', '/');
+	    
+	    System.out.println("Modified path: "+path);
+	    WeblogoDataStructure dataStructure =  utilities.getWeblogoDS(chooser.getSelectedFile().getAbsolutePath());
+	    columnList = dataStructure.getColumnList();
+	    this.repaint();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		Object obj = event.getSource();
+
+		if(obj instanceof JMenuBar){
+			System.out.println("JMenuBar");
+		}
+		
+		if(obj instanceof JMenu){
+			System.out.println("JMenu");
+		}
+		
+		if(obj instanceof JMenuItem){
+			System.out.println("JMenuItem");
+			JMenuItem item = (JMenuItem) obj;
+			System.out.println(item.getText());
+			getFastaFilePathFromInputBox();
+		}
 	}
 }
