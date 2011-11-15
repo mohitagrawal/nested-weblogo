@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -422,12 +423,39 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	    this.repaint();
 	}
 	
+	public void getWildCardPattern(){
+		/* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Exception: "+ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                new NestedWebLogoInputer().setVisible(true);
+            }
+        });
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object obj = event.getSource();
 
 		if(obj instanceof JMenuBar){
-			System.out.println("JMenuBar");
+			System.out.println("JMenuBar");			
 		}
 		
 		if(obj instanceof JMenu){
@@ -437,8 +465,15 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		if(obj instanceof JMenuItem){
 			System.out.println("JMenuItem");
 			JMenuItem item = (JMenuItem) obj;
+			
 			System.out.println(item.getText());
-			getFastaFilePathFromInputBox();
+			if(item.getText().equalsIgnoreCase("add")){
+				getWildCardPattern();
+			}
+			
+			if(item.getText().equalsIgnoreCase("Create")){
+				getFastaFilePathFromInputBox();
+			}					
 		}
 	}
 }
