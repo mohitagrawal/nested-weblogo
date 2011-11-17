@@ -15,7 +15,7 @@ public class Utilities {
 	
 	{
 		String[] seqArray = parseFasta(filepath);
-		WeblogoDataStructure weblogoData = new WeblogoDataStructure();
+		WeblogoDataStructure weblogoData = WeblogoDataStructure.getInstance();
 		weblogoData.calculateHeight(seqArray);
 		return weblogoData;
 	}

@@ -20,6 +20,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -43,6 +44,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	 * 
 	 */
 	
+	Map<String,NestedWebLogoDataStructure> nestedWeblogoMap = new HashMap<String, NestedWebLogoDataStructure>();
+	
 	private static final long serialVersionUID = 1L;
 	
 	private static final int X_INTERVAL = 15;
@@ -53,8 +56,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 
 	ArrayList<WeblogoColumn> columnList = new ArrayList<WeblogoColumn>();
 	
-	private int preferredSizeWidth = 600;
-	private int preferredSizeHeight = 600;
+	private int preferredSizeWidth = 800;
+	private int preferredSizeHeight = 800;
 	
 	private enum LineType {
 		HORIZONTAL, VERTICAL
@@ -76,7 +79,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
         seqarray[1] = seq2;
         seqarray[2] = seq3;
 		
-		WeblogoDataStructure weblogoData = new WeblogoDataStructure();
+		WeblogoDataStructure weblogoData = WeblogoDataStructure.getInstance();
 		weblogoData.calculateHeight(seqarray);
 		
 		WeblogoColumn webLogo = new WeblogoColumn();
@@ -152,6 +155,26 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		drawXAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition , bottomRightXPosition , bottomRightYPosition);
 								
+	}
+	
+	
+	private int[][] getValidIntervalForMainWebLogo(){
+
+		//  
+		int startPosition = 0;
+		
+		//
+		int endPosition = columnList.size();
+		
+		return null;
+	}
+	
+	private void drawMainWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight){
+		// Get the interval
+		
+		int[][] validInterval = getValidIntervalForMainWebLogo();
+		
+		// draw web logo in that interval only
 	}
 	
 	private void drawBorder(Graphics2D graphics2DObject, LogoBoundry logoBoundry){

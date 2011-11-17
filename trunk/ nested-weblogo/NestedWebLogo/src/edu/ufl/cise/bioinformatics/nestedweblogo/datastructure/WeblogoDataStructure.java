@@ -20,11 +20,32 @@ public class WeblogoDataStructure {
 
 	private SequenceType sequenceType = SequenceType.DNA;
 	
-	public WeblogoDataStructure() {
+	private int weblogoID;
+	
+	private static Integer counter = 0;
+	
+	public static WeblogoDataStructure getInstance(){
+		WeblogoDataStructure instance = new WeblogoDataStructure();
+		instance.init();
+		counter++;
+		instance.weblogoID = counter;
+		
+		return instance;
+	}
+	
+	
+	private WeblogoDataStructure() {
+		
+	}
+	
+	
+	
+	private void init(){
 		// TODO Auto-generated constructor stub
 		columnList = new ArrayList<WeblogoColumn>();
 		frequencyTable = new LinkedHashMap<String, Double>();
 	}
+	
 	/**
 	 * Gets the column list.
 	 *
