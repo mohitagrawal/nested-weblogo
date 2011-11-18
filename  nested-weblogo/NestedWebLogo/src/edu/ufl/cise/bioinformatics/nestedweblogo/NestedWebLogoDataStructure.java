@@ -24,10 +24,8 @@ public class NestedWebLogoDataStructure {
 
 
 
-	public void setSourceWebLogo(WeblogoDataStructure sourceWebLogo, int start, int end) {
-		this.sourceWebLogo = sourceWebLogo;
-		this.sourceWebLogoStartPosition = start;
-		this.sourceWebLogoEndPosition = end;
+	public void setSourceWebLogo(WeblogoDataStructure sourceWebLogo) {
+		this.sourceWebLogo = sourceWebLogo;		
 	}
 
 
@@ -38,10 +36,8 @@ public class NestedWebLogoDataStructure {
 
 
 
-	public void setTargetWebLogo(WeblogoDataStructure targetWebLogo, int start, int end) {
+	public void setTargetWebLogo(WeblogoDataStructure targetWebLogo) {
 		this.targetWebLogo = targetWebLogo;
-		this.targetWebLogoStartPosition = start;
-		this.targetWebLogoEndPosition = end;
 	}
 
 
