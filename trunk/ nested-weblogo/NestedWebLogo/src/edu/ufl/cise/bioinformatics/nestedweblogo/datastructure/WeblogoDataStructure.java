@@ -34,7 +34,7 @@ public class WeblogoDataStructure {
 	}
 	
 	
-	private WeblogoDataStructure() {
+	WeblogoDataStructure() {
 		
 	}
 	
@@ -115,7 +115,7 @@ public class WeblogoDataStructure {
 			//calculate error factor
 			//calculate information at a index
 			double informationAtIndex;
-			if(sequenceType.equals("DNA"))
+			if(sequenceType == SequenceType.DNA)
 				informationAtIndex = 2 - (uncertanityAtIndex + errorFactor);
 			else
 				// log 20 base 2
@@ -135,6 +135,8 @@ public class WeblogoDataStructure {
 			WeblogoColumn column = new WeblogoColumn();
 			column.setCharactersMap(tempMap);
 			columnList.add(column);
+			
+			tempMap = null;
 			//flush out frequency table
 			frequencyTable.clear();
 		}		 				
