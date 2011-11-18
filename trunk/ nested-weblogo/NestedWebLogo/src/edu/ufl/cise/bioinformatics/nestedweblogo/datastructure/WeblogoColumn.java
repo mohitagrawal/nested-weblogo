@@ -37,13 +37,12 @@ public class WeblogoColumn {
 	 *
 	 * @param charactersMap the characters map
 	 */
-	//
+	//character map is char to map height column wise.
 	public void setCharactersMap(TreeMap<String, Double> charactersMap) {
 		
 		//To make valuecomparator object working.
 		ValueComparator bvc =  new ValueComparator(charactersMap);
-		this.charactersMap = new TreeMap<String, Double>(bvc);
-		this.charactersMap.putAll(charactersMap);
+		this.charactersMap = charactersMap;
 		/*Iterator mapIter = charactersMap.keySet().iterator();
 		Double value;
 		String key;
