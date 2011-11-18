@@ -11,9 +11,7 @@ public class NestedWebLogoCreator {
 	
 	
 	public NestedWebLogoDataStructure getNestedLogo(int sourceStart, int sourceEnd, int targetStart, int targetEnd, String wildCard)
-	{
-	
-		
+	{			
 		WeblogoDataStructure sourceWeblogo = WeblogoDataStructure.getInstance();
 		WeblogoDataStructure targetWeblogo = WeblogoDataStructure.getInstance();
 		String[] inputSequences, sourceSubSequence, targetSubSequence;
@@ -25,12 +23,12 @@ public class NestedWebLogoCreator {
 		if(!((sourceStart < sourceEnd) && (sourceEnd <inputSequences[0].length())))
 		{
 			System.err.println("Invalid source start and end parameters. EXITING!!!");
-			return null;
+			//return null;
 		}
 		if(!((targetStart < targetEnd)  && (targetStart > sourceEnd) && (targetEnd < inputSequences[0].length())))
 		{
 			System.err.println("Invalid target start and end parameters. EXITING!!!!");
-			return null;
+			//return null;
 		}
 		//sourceSubSequence = makeSubSequence(sourceStart, sourceEnd, inputSequences);
 		//targetSubSequence = makeSubSequence(targetStart, targetEnd, inputSequences);
