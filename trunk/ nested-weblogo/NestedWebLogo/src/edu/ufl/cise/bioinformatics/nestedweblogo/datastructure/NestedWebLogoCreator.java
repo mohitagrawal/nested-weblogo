@@ -64,8 +64,12 @@ public class NestedWebLogoCreator {
 		sourceWeblogo.calculateHeight(matchedSourceString);
 		targetWeblogo.calculateHeight(matchedTargetString);
 		NestedWebLogoDataStructure nestedWeblogo = new NestedWebLogoDataStructure();
-		nestedWeblogo.setSourceWebLogo(sourceWeblogo, sourceStart, sourceEnd);
-		nestedWeblogo.setTargetWebLogo(targetWeblogo, targetStart, targetEnd);
+		nestedWeblogo.setSourceWebLogo(sourceWeblogo);
+		nestedWeblogo.setSourceWebLogoEndPosition(sourceEnd);
+		nestedWeblogo.setSourceWebLogoStartPosition(sourceStart);
+		nestedWeblogo.setTargetWebLogo(targetWeblogo);
+		nestedWeblogo.setTargetWebLogoEndPosition(targetEnd);
+		nestedWeblogo.setTargetWebLogoStartPosition(targetStart);
 		return nestedWeblogo;
 	}
 		public String[] makeSubSequence(int start, int end, String[] inputSequences)
