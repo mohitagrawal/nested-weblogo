@@ -10,6 +10,8 @@ import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoDataStruct
 
 public class Utilities {
 	
+//	private String  
+	
 	public boolean checkInputLengthsisEqual(String[] input)
 	{
 		int length = input[0].length();
@@ -27,7 +29,7 @@ public class Utilities {
 	}
 	public String getFilePath()
 	{
-		String filePath = new String("C://test/nestedsample.txt");
+		String filePath = new String("C:\\Users\\sagar\\MyStudy\\BioInformatics\\nestedsample.txt");
 		return filePath;
 	}
 	//Main workhorse routine to get weblogodatastructure from fasta file

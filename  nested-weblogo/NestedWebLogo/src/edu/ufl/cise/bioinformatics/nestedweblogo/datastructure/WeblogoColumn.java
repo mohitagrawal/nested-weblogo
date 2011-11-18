@@ -3,6 +3,8 @@ package edu.ufl.cise.bioinformatics.nestedweblogo.datastructure;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 
@@ -15,7 +17,7 @@ public class WeblogoColumn {
 	/** The characters map. */
 	
 	
-	private TreeMap<String,Double> charactersMap;
+	private LinkedHashMap<String,Double> charactersMap;
 
 	/**
 	 * Gets the characters map.
@@ -28,7 +30,7 @@ public class WeblogoColumn {
 		 
 			
 	}
-	public TreeMap<String, Double> getCharactersMap() {
+	public LinkedHashMap<String, Double> getCharactersMap() {
 		return charactersMap;
 	}
 
@@ -38,20 +40,33 @@ public class WeblogoColumn {
 	 * @param charactersMap the characters map
 	 */
 	//character map is char to map height column wise.
-	public void setCharactersMap(TreeMap<String, Double> charactersMap) {
+	public void setCharactersMap(LinkedHashMap<String, Double> charactersMap) {
+		
+		
+		Set<Entry<String,Double>> entrySet = charactersMap.entrySet();
+		
+		Entry<String,Double>[] tempArr =  new Entry[charactersMap.size()];
+		tempArr = entrySet.toArray(tempArr);
+		
+		for(int i=0 ; i<tempArr.length ; i++){
+			for(int j=i+1 ; j<tempArr.length ; j++){
+				if(tempArr[i].getValue().compareTo(tempArr[j].getValue()) == 1 ){
+					Entry<String,Double> tempEntry = tempArr[i];
+					tempArr[i] = tempArr[j];
+					tempArr[j] = tempEntry;
+				}
+			}
+		}
+		
+		
 		
 		//To make valuecomparator object working.
-		ValueComparator bvc =  new ValueComparator(charactersMap);
-		this.charactersMap = charactersMap;
-		/*Iterator mapIter = charactersMap.keySet().iterator();
-		Double value;
-		String key;
-		while(mapIter.hasNext())
-		{
-			key = (String) mapIter.next();
-			value = charactersMap.get(key);
-			this.charactersMap.put(key, value);
-		}*/
+		this.charactersMap = new LinkedHashMap<String, Double>();
+
+		for(int i=0 ; i<tempArr.length ; i++){
+			this.charactersMap.put(tempArr[i].getKey(), tempArr[i].getValue());
+		}
+		
 	}
 	
 	public void printCharactersMap()
