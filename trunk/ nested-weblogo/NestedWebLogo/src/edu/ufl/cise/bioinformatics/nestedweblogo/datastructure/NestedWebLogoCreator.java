@@ -9,14 +9,21 @@ import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
 
 public class NestedWebLogoCreator {
 	
+	private String filePath;
+	
+	public NestedWebLogoCreator(String filePath){
+		this.filePath = filePath;
+	}
 	
 	public NestedWebLogoDataStructure getNestedLogo(int sourceStart, int sourceEnd, int targetStart, int targetEnd, String wildCard)
 	{			
 		WeblogoDataStructure sourceWeblogo = WeblogoDataStructure.getInstance();
 		WeblogoDataStructure targetWeblogo = WeblogoDataStructure.getInstance();
 		String[] inputSequences, sourceSubSequence, targetSubSequence;
-		Utilities utili = new Utilities();
-		String filePath = utili.getFilePath();
+		
+		Utilities utili = new Utilities();		
+//		String filePath = utili.getFilePath();
+		
 		inputSequences = utili.parseFasta(filePath);
 		
 		//Exception handling

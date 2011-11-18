@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.SequenceType;
+import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
 
 /**
  * The Class WeblogoDataStructure.
@@ -87,7 +88,7 @@ public class WeblogoDataStructure {
 		// value of s for dna is 4 and protein is 20
 		int s;
 		//source wiki
-		if(sequenceType.equals("DNA"))
+		if(sequenceType == SequenceType.DNA)
 			s = 4;
 		else
 			s = 20;
@@ -97,7 +98,7 @@ public class WeblogoDataStructure {
 		System.out.println("Error Factor - "+errorFactor);
 		for(int i = 0;i< sequence[0].length();i++)
 		{
-			TreeMap<String, Double> tempMap= new TreeMap<String, Double>();
+			LinkedHashMap<String, Double> tempMap= new LinkedHashMap<String, Double>();
 			//calculate uncertainiy at a index
 			Double uncertanityAtIndex = 0.0, frequency;
 			//iterate over frequency table map and add it
@@ -162,5 +163,10 @@ public class WeblogoDataStructure {
 
 	public void setSequenceType(SequenceType sequenceType) {
 		this.sequenceType = sequenceType;
+	}
+	
+	public static void main(String args[]){
+		Utilities utility = new Utilities();
+		utility.getWeblogoDS(utility.getFilePath()).printHeightTable();
 	}
 }

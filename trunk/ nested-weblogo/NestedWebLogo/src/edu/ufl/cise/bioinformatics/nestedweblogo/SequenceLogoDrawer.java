@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
+//import java.util.TreeMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.NestedWebLogoCreator;
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoColumn;
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoDataStructure;
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
@@ -43,13 +44,13 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	/**
 	 * 
 	 */
+	private String webLogoFilePath = "C:\\Users\\sagar\\MyStudy\\BioInformatics\\nestedsample.txt";
 	
 	Map<String,NestedWebLogoDataStructure> nestedWeblogoMap = new HashMap<String, NestedWebLogoDataStructure>();
 	
 	private static final long serialVersionUID = 1L;
 	
 	private static final int X_INTERVAL = 15;
-//	private static final int Y_INTERVAL = 20;
 	
 	String words = "Valour fate kinship darkness";
 	String java = "Java TM";
@@ -69,6 +70,26 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	 * Inits the.
 	 */
 	public void init(){
+//		test();
+		
+	    /*Utilities utilities = new Utilities();
+
+		WeblogoDataStructure dataStructure =  utilities.getWeblogoDS(webLogoFilePath);
+	    columnList = dataStructure.getColumnList();
+		
+		NestedWebLogoCreator creator = new NestedWebLogoCreator(webLogoFilePath);
+		NestedWebLogoDataStructure nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "A.*");
+		addEntryToNestedWebLogoMap(nestedLogo);
+
+		nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "T.*");
+		addEntryToNestedWebLogoMap(nestedLogo);
+		
+		nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "TA.*");
+		addEntryToNestedWebLogoMap(nestedLogo);*/
+		
+	}	
+	
+	public void test(){
 		this.setPreferredSize(new Dimension(800, 800));
 		String seq1 = "AGTC";
         String seq2 = "ATGC";
@@ -84,47 +105,123 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		WeblogoColumn webLogo = new WeblogoColumn();
 
-		TreeMap<String, Double> charactersMap = new TreeMap<String, Double>();
-		
-	/*	charactersMap.put("A", 9.4);
-		charactersMap.put("C", 1.3);
-		charactersMap.put("G", 19.1);
-		charactersMap.put("T", 2.5);*/
+		LinkedHashMap<String, Double> charactersMap = new LinkedHashMap<String, Double>();
 		
 		charactersMap.put("A", 1.0);
 		charactersMap.put("C", 2.0);
 		charactersMap.put("G", 3.0);
-		charactersMap.put("T", 1.0);
-//		charactersMap.put("N", 4.0);
+		charactersMap.put("T", 4.0);
 
 		
 		webLogo.setCharactersMap(charactersMap);
 		
-		columnList = weblogoData.getColumnList();
+//		columnList = weblogoData.getColumnList();
+
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
+		columnList.add(webLogo);
 		
-//		columnList = new ArrayList<WeblogoColumn>();
 		
-		columnList.add(webLogo);
-		  
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
-		columnList.add(webLogo);
+		WeblogoDataStructure nestedWebLogo = WeblogoDataStructure.getInstance();
+		charactersMap = new LinkedHashMap<String, Double>();
 		
-	}	
+		charactersMap.put("C", 2.0);
+		charactersMap.put("G", 1.0);
+		
+		webLogo = new WeblogoColumn();
+		webLogo.setCharactersMap(charactersMap);
+		
+		nestedWebLogo.getColumnList().add(webLogo);
+		nestedWebLogo.getColumnList().add(webLogo);
+		nestedWebLogo.getColumnList().add(webLogo);
+		nestedWebLogo.getColumnList().add(webLogo);
+		
+		
+		
+		WeblogoDataStructure sourceInstance = WeblogoDataStructure.getInstance();
+		sourceInstance.setColumnList(columnList);
+		WeblogoDataStructure destinationInstance = WeblogoDataStructure.getInstance();
+		
+		NestedWebLogoDataStructure nestedWebLogoDataStructure = new  NestedWebLogoDataStructure();
+		nestedWebLogoDataStructure.setSourceWebLogo(nestedWebLogo);
+		nestedWebLogoDataStructure.setTargetWebLogo(nestedWebLogo);
+		nestedWebLogoDataStructure.setSourceWebLogoStartPosition(2);
+		nestedWebLogoDataStructure.setSourceWebLogoEndPosition(5);
+		
+		nestedWebLogoDataStructure.setTargetWebLogoStartPosition(7);
+		nestedWebLogoDataStructure.setTargetWebLogoEndPosition(10);
+		
+		nestedWebLogoDataStructure.setWildCardPattern("ABCD");
+		
+		addEntryToNestedWebLogoMap(nestedWebLogoDataStructure);
+		
+		nestedWebLogoDataStructure = new  NestedWebLogoDataStructure();
+		nestedWebLogoDataStructure.setSourceWebLogo(nestedWebLogo);
+		nestedWebLogoDataStructure.setTargetWebLogo(nestedWebLogo);
+		nestedWebLogoDataStructure.setSourceWebLogoStartPosition(2);
+		nestedWebLogoDataStructure.setSourceWebLogoEndPosition(5);
+		nestedWebLogoDataStructure.setTargetWebLogoStartPosition(7);
+		nestedWebLogoDataStructure.setTargetWebLogoEndPosition(10);
+		nestedWebLogoDataStructure.setWildCardPattern("XYZD");
+		
+		addEntryToNestedWebLogoMap(nestedWebLogoDataStructure);
+	}
+	
+	public void buildWebLogo(Map<String,NestedWebLogoDataStructure> nestedWeblogoMap){
+		
+		NestedWebLogoCreator creator = new NestedWebLogoCreator(webLogoFilePath);
+		
+		Set<String> keySet = nestedWeblogoMap.keySet();
+		
+		if(keySet.isEmpty() == false){
+			clearNestedWebLogoMap();
+		}
+		
+		for (String key : keySet) {
+			NestedWebLogoDataStructure nestedWebLogoInput = nestedWeblogoMap.get(key);
+			NestedWebLogoDataStructure nestedLogo =  creator.getNestedLogo(nestedWebLogoInput.getSourceWebLogoStartPosition(), nestedWebLogoInput.getSourceWebLogoEndPosition(), nestedWebLogoInput.getTargetWebLogoStartPosition(), nestedWebLogoInput.getTargetWebLogoEndPosition(), nestedWebLogoInput.getWildCardPattern());
+			addEntryToNestedWebLogoMap(nestedLogo);
+		}
+		
+	}
+	
+	public void clearNestedWebLogoMap(){
+		
+		nestedWeblogoMap.clear();
+	}
+	
+	public void addEntryToNestedWebLogoMap(NestedWebLogoDataStructure nestedWebLogoDataStructure){
+		
+		String key = nestedWebLogoDataStructure.getWildCardPattern()+":"+nestedWebLogoDataStructure.getSourceWebLogoStartPosition()+":"
+		+nestedWebLogoDataStructure.getSourceWebLogoEndPosition()+":"+nestedWebLogoDataStructure.getTargetWebLogoStartPosition()+":"
+		+nestedWebLogoDataStructure.getTargetWebLogoEndPosition();
+		
+		nestedWeblogoMap.put(key, nestedWebLogoDataStructure);
+	}
 	
 	@Override
 	public void paint(Graphics g) {
@@ -145,11 +242,15 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		int bottomRightYPosition = getHeight()-42;
 		int bottomRightXPosition = getWidth()-100;
 		int maximumAvailableWidth = getWidth()-100;
-		float maximumAvailableHeight = getHeight()-50;
+		float maximumAvailableHeight = getHeight()-142;
 		
-		drawWebLogo(graphics2DObject, columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumAvailableWidth, maximumAvailableHeight);
+//		drawWebLogo(graphics2DObject, columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumAvailableWidth, maximumAvailableHeight);
 		
-		drawWebLogo(graphics2DObject, columnList, bottomLeftXPosition , maximumAvailableHeight/4+40 , maximumAvailableWidth/4 , maximumAvailableHeight/4);
+//		drawWebLogo(graphics2DObject, columnList, bottomLeftXPosition , maximumAvailableHeight/4+40 , maximumAvailableWidth/4 , maximumAvailableHeight/4);
+		
+		drawMainWebLogo(graphics2DObject, columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumAvailableWidth, maximumAvailableHeight);
+		
+		drawNestedWebLogo(graphics2DObject, columnList, bottomLeftXPosition, bottomLeftYPosition, maximumAvailableWidth, maximumAvailableHeight);
 		
 		drawYAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition, topLeftXPosition, topLeftYPosition );
 		
@@ -158,23 +259,138 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	}
 	
 	
-	private int[][] getValidIntervalForMainWebLogo(){
+	public int[][] getValidIntervalForMainWebLogo(){
 
-		//  
-		int startPosition = 0;
+		//  Start position of main sequence
+		int startPosition = 1;
 		
-		//
+		//  End position of main sequence
 		int endPosition = columnList.size();
+
+		Set<String> keys =  nestedWeblogoMap.keySet();
 		
-		return null;
+		int intervalSet[][] = new int[keys.size()*2][2];
+		
+		int count = 0;
+		
+		for (String key : keys) {
+//			System.out.println("Key: " +key);
+			NestedWebLogoDataStructure nestedWebLogo = nestedWeblogoMap.get(key);
+
+			intervalSet[count][0] = nestedWebLogo.getSourceWebLogoStartPosition();
+			intervalSet[count][1] = nestedWebLogo.getSourceWebLogoEndPosition();
+			
+			count++;
+		
+			intervalSet[count][0] = nestedWebLogo.getTargetWebLogoStartPosition();
+			intervalSet[count][1] = nestedWebLogo.getTargetWebLogoEndPosition();
+			
+			count++;
+		}
+		
+		for(int i=0 ; i<intervalSet.length ; i++){
+			for(int j=i+1 ; j<intervalSet.length ; j++){
+				if(intervalSet[i][0] > intervalSet[j][0]){
+					int temp = intervalSet[i][0];
+					intervalSet[i][0] = intervalSet[j][0];
+					intervalSet[j][0] = temp;
+				}
+			}
+		}
+		
+		int[][] mainWebLogoInterval = new int[intervalSet.length+1][2];
+		
+		mainWebLogoInterval[0][0] = startPosition;
+		 
+		
+		for(int i=0 ; i<intervalSet.length ; i++){
+			mainWebLogoInterval[i][1] = intervalSet[i][0]-1;
+			mainWebLogoInterval[i+1][0] = intervalSet[i][1]+1;
+		}
+		
+		mainWebLogoInterval[intervalSet.length][1] = endPosition;
+		
+		return mainWebLogoInterval;
 	}
 	
-	private void drawMainWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight){
+	public void drawMainWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight){
 		// Get the interval
 		
 		int[][] validInterval = getValidIntervalForMainWebLogo();
 		
+		for(int i=0 ; i<validInterval.length ; i++){
+			drawWebLogo(graphics2DObject, columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,validInterval[i][0],validInterval[i][1]);
+		}
+		
 		// draw web logo in that interval only
+	}
+	
+	public void drawNestedWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight){
+		
+		HashMap<String,Integer> columnGroupMap = new HashMap<String, Integer>();
+		
+		HashMap<String,Integer> rankOfWebLogoInColumnMap = new HashMap<String, Integer>();
+
+		Set<String> keys = nestedWeblogoMap.keySet();
+		
+		for (String key : keys) {
+			NestedWebLogoDataStructure nestedWebLogo =  nestedWeblogoMap.get(key);
+			
+			String columnKey = nestedWebLogo.getSourceWebLogoStartPosition()+":"+nestedWebLogo.getSourceWebLogoEndPosition();
+			
+			int numberOfWeblogoInColumn = 1;
+			
+			if(columnGroupMap.containsKey(columnKey)){
+				numberOfWeblogoInColumn = columnGroupMap.get(columnKey) + 1;
+			}
+
+			columnGroupMap.put(columnKey, numberOfWeblogoInColumn);
+			rankOfWebLogoInColumnMap.put(key, numberOfWeblogoInColumn);
+			
+		}
+		
+		
+		for (String key : keys) {
+			NestedWebLogoDataStructure nestedWebLogo =  nestedWeblogoMap.get(key);
+			
+			String columnKey = nestedWebLogo.getSourceWebLogoStartPosition()+":"+nestedWebLogo.getSourceWebLogoEndPosition();
+			
+			int numberOfWeblogoInColumn = 1;
+			
+			if(columnGroupMap.containsKey(columnKey)){
+				numberOfWeblogoInColumn = columnGroupMap.get(columnKey);
+			}else{
+				System.out.println("Error....");
+				break;
+			}
+
+			numberOfWeblogoInColumn = columnGroupMap.get(columnKey);
+			int rankOfWebLogoInColumn = rankOfWebLogoInColumnMap.get(key);
+			
+			float startYPosition = bottomLeftYPosition - ((rankOfWebLogoInColumn-1) * (maximumHeight / numberOfWeblogoInColumn));
+			
+			
+			
+			float startXPosition = 	bottomLeftXPosition  +  ( (nestedWebLogo.getSourceWebLogoStartPosition()-1) * (maximumWidth/columnList.size()));
+			
+			float newMaximumWidth = ( (nestedWebLogo.getSourceWebLogoEndPosition()-nestedWebLogo.getSourceWebLogoStartPosition()+1) * (maximumWidth/columnList.size()));
+			float newMaximumHeight = ((1) * (maximumHeight / numberOfWeblogoInColumn));
+			
+			drawWebLogo(graphics2DObject, nestedWebLogo.getSourceWebLogo().getColumnList(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight, 1, nestedWebLogo.getSourceWebLogo().getColumnList().size());
+			
+			//__________________________________________________________________________________________________________________________________
+			
+			
+			startXPosition = 	bottomLeftXPosition  +  ( (nestedWebLogo.getTargetWebLogoStartPosition()-1) * (maximumWidth/columnList.size()));
+			
+			newMaximumWidth = ( (nestedWebLogo.getTargetWebLogoEndPosition()-nestedWebLogo.getTargetWebLogoStartPosition()+1) * (maximumWidth/columnList.size()));
+
+			newMaximumHeight = ((1) * (maximumHeight / numberOfWeblogoInColumn));
+			
+			drawWebLogo(graphics2DObject, nestedWebLogo.getTargetWebLogo().getColumnList(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight, 1, nestedWebLogo.getTargetWebLogo().getColumnList().size());
+			
+		}
+		
 	}
 	
 	private void drawBorder(Graphics2D graphics2DObject, LogoBoundry logoBoundry){
@@ -233,7 +449,24 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 
 			Set<String> characters = charactersInColumnMap.keySet();
 			
-			float heightFactor = maximumHeight/100.0f;
+			
+
+			float totalHeight = 0;
+			
+			for (String character : characters) {
+				
+				Double characterHeight = charactersInColumnMap.get(character);
+				
+				if(characterHeight == null){
+					continue;
+				}
+				
+				totalHeight += characterHeight ;
+				
+			}
+			
+			float heightFactor = maximumHeight/totalHeight;
+			heightFactor = heightFactor / 8.6f;
 			
 			float currentColumnSize = bottomYPosition;
 			
@@ -254,11 +487,6 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			rightXPosition  += (maximumWidth/(columnList.size()));
 		}
 		
-		/*System.out.println("leftXPosition  : "+leftXPosition);
-		System.out.println("rightXPosition : "+rightXPosition);
-		System.out.println("bottomYPosition: "+bottomYPosition);
-		System.out.println("topYPosition   : "+topYPosition);*/
-		
 		boundry.setLeftXPosition(leftXPosition);
 		boundry.setRightXPosition(rightXPosition);
 		boundry.setBottomYPosition(bottomYPosition);
@@ -267,14 +495,18 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		return boundry;
 	}
 	
-	private void drawWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight){
+	private void drawWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight, int startPosition, int endPosition){
 		
 		LogoBoundry logoBoundry = getLogoBoundry(columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight);
+
+		int count = 1;
 		
 		for (WeblogoColumn weblogoColumn : columnList) {
 			
-			drawColumn(graphics2DObject, weblogoColumn, bottomLeftXPosition, bottomLeftYPosition, maximumWidth/(columnList.size() * 9) , maximumHeight);
-			
+			if(startPosition<=count && count<=endPosition){
+				drawColumn(graphics2DObject, weblogoColumn, bottomLeftXPosition, bottomLeftYPosition, maximumWidth/(columnList.size() * 9) , maximumHeight);
+			}					
+			count++;
 			bottomLeftXPosition  += (maximumWidth/(columnList.size()));
 			
 		}			
@@ -287,11 +519,22 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		Set<String> characters = charactersInColumnMap.keySet();
 		
-		float heightFactor = maximumHeight/100.0f;
+		
+		
+		float totalHeight = 0;
 		
 		for (String character : characters) {
 			
-//			System.out.println("character: "+character);
+			double characterHeight = charactersInColumnMap.get(character);
+			
+			totalHeight += characterHeight ;
+			
+		}
+		
+		float heightFactor = maximumHeight/totalHeight;
+		heightFactor = heightFactor / 8.6f;
+		
+		for (String character : characters) {
 			
 			double characterHeight = charactersInColumnMap.get(character);
 			
@@ -303,9 +546,6 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			
 			bottomLeftYPosition -= characterHeight * 8.6;	
 		
-//			System.out.println("X: "+bottomLeftXPosition);
-//			System.out.println("Y: "+bottomLeftYPosition);
-			
 		}
 	}
 	
@@ -348,7 +588,6 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent mouseEvent) {		
-		System.out.println("mouseEvent.getWheelRotation() : "+mouseEvent.getWheelRotation());
 		
 		if(mouseEvent.getWheelRotation() > 0){
 			preferredSizeWidth += 50;
@@ -367,6 +606,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	}
 	
 	public static void main(String[] args) {
+		
+		
 		JFrame frame = new JFrame("Nested Web Logo");
 		
 		SequenceLogoDrawer charTest = new SequenceLogoDrawer();
@@ -374,6 +615,10 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		Font font = charTest.getFont(); 
 //		System.out.println("font size: "+font.getSize2D());
 		charTest.init();
+		
+//		int[][] arr = charTest.getValidIntervalForMainWebLogo();
+		
+				
 //		charTest.setPreferredSize(new Dimension(800, 800));
 		charTest.addMouseWheelListener(charTest);
 		
@@ -384,7 +629,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 //		frame.add(charTest,BorderLayout.CENTER);
 		frame.add(pane,BorderLayout.CENTER);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
 		frame.setSize(new Dimension(600, 600));
 		frame.setLocationRelativeTo(null);
@@ -441,17 +686,15 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	    path = path.replace('\\', '/');
 	    
 	    System.out.println("Modified path: "+path);
+	    webLogoFilePath = path;
 	    WeblogoDataStructure dataStructure =  utilities.getWeblogoDS(chooser.getSelectedFile().getAbsolutePath());
 	    columnList = dataStructure.getColumnList();
+	    this.clearNestedWebLogoMap();
 	    this.repaint();
 	}
 	
 	public void getWildCardPattern(){
-		/* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+		
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -464,32 +707,26 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the form 
         EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new NestedWebLogoInputer().setVisible(true);
+                
             }
-        });
+        });*/
+//        System.out.println("Befor calling");
+        new NestedWebLogoInputer(this).setVisible(true);
+//        System.out.println("After calling");
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object obj = event.getSource();
 
-		if(obj instanceof JMenuBar){
-			System.out.println("JMenuBar");			
-		}
-		
-		if(obj instanceof JMenu){
-			System.out.println("JMenu");
-		}
-		
 		if(obj instanceof JMenuItem){
-			System.out.println("JMenuItem");
+
 			JMenuItem item = (JMenuItem) obj;
 			
-			System.out.println(item.getText());
 			if(item.getText().equalsIgnoreCase("add")){
 				getWildCardPattern();
 			}
