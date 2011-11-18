@@ -70,6 +70,7 @@ public class NestedWebLogoCreator {
 		nestedWeblogo.setTargetWebLogo(targetWeblogo);
 		nestedWeblogo.setTargetWebLogoEndPosition(targetEnd);
 		nestedWeblogo.setTargetWebLogoStartPosition(targetStart);
+		nestedWeblogo.setWildCardPattern(wildCard);
 		return nestedWeblogo;
 	}
 		public String[] makeSubSequence(int start, int end, String[] inputSequences)
