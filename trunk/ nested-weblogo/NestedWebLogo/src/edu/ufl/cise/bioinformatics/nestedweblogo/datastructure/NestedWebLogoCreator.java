@@ -19,7 +19,7 @@ public class NestedWebLogoCreator {
 	{			
 		WeblogoDataStructure sourceWeblogo = WeblogoDataStructure.getInstance();
 		WeblogoDataStructure targetWeblogo = WeblogoDataStructure.getInstance();
-		String[] inputSequences, sourceSubSequence, targetSubSequence;
+		String[] inputSequences, sourceSubSequence, targetSubSequence, inputSourceSubSequences, inputTargetSubSequences;
 		
 		Utilities utili = new Utilities();		
 //		String filePath = utili.getFilePath();
@@ -42,17 +42,22 @@ public class NestedWebLogoCreator {
 		ArrayList<String> matchedSourceSubSequence = new ArrayList();
 		ArrayList<String> matchedTargetSubSequence = new ArrayList();
 		int i = 0;
+		inputSourceSubSequences = new String[inputSequences.length];
+		inputTargetSubSequences = new String[inputSequences.length];
 		while(i < inputSequences.length)
 		{			
 			//matches input sequence with wild and then puts corresponding subsequence for source and target window
-			if(IsMatch(inputSequences[i],wildCard))
+			inputSourceSubSequences[i] = (String) inputSequences[i].subSequence(sourceStart, sourceEnd+1);
+			inputTargetSubSequences[i] = (String) inputSequences[i].subSequence(targetStart, targetEnd+1);
+			if(IsMatch(inputSourceSubSequences[i], wildCard))
 			{
-					// plus one in end is for substring
-					matchedSourceSubSequence.add((String)inputSequences[i].subSequence(sourceStart, sourceEnd+1));
-					matchedTargetSubSequence.add((String)inputSequences[i].subSequence(targetStart, targetEnd+1));
+					// {plus one in end is for substring
+					matchedSourceSubSequence.add(inputSourceSubSequences[i]);
+					matchedTargetSubSequence.add(inputTargetSubSequences[i]);
 			}
 			i++;
 		}
+		
 		String[] matchedSourceString = new String[matchedSourceSubSequence.size()];
 		String[] matchedTargetString = new String[matchedTargetSubSequence.size()];
 		//Converting arraylist to String[] for weblogo creation
