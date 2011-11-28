@@ -566,19 +566,19 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		graphics2DObject.setColor(Color.BLACK);
 		
 		if(ch.equals("A")){
-			graphics2DObject.setColor(Color.RED);	
+			graphics2DObject.setColor(Color.GREEN);	
 		}
 		
 		if(ch.equals("T")){
-			graphics2DObject.setColor(Color.BLUE);	
+			graphics2DObject.setColor(Color.RED);	
 		}
 		
-		if(ch.equals("R")){
-			graphics2DObject.setColor(Color.BLACK);	
+		if(ch.equals("G")){
+			graphics2DObject.setColor(Color.YELLOW);	
 		}
 		
 		if(ch.equals("C")){
-			graphics2DObject.setColor(Color.CYAN);
+			graphics2DObject.setColor(Color.BLUE);
 		}
 		
 		graphics2DObject.drawString(attributeString.getIterator(), bottomLeftXPosition, bottomLeftYPosition);
