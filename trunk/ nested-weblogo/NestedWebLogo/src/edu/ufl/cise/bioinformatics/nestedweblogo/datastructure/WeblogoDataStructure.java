@@ -16,10 +16,19 @@ import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
 public class WeblogoDataStructure {
 	
 	/** The column list. */
+	
 	private ArrayList<WeblogoColumn> columnList;
+
 	private LinkedHashMap<String, Double> frequencyTable;
+	
+	private ArrayList<String> sequences;
 
 	private SequenceType sequenceType = SequenceType.DNA;
+	
+	public double leftXPosition;
+	public double bottomYPosition;
+	public double rightXPosition;
+	public double topXPosition;
 	
 	private int weblogoID;
 	
@@ -169,4 +178,17 @@ public class WeblogoDataStructure {
 		Utilities utility = new Utilities();
 		utility.getWeblogoDS(utility.getFilePath()).printHeightTable();
 	}
+
+
+	public ArrayList<String> getSequences() {
+		return sequences;
+	}
+
+
+	public void setSequences(ArrayList<String> sequences) {
+		this.sequences = sequences;
+	}
+	
+	
+	
 }
