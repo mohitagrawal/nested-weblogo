@@ -410,7 +410,7 @@ public class NestedWebLogoInputer extends javax.swing.JFrame {
 		
 		Map<String,NestedWebLogoDataStructure> nestedWeblogoMap = new HashMap<String, NestedWebLogoDataStructure>();
 		
-		drawer.clearNestedWebLogoMap();
+//		drawer.clearNestedWebLogoMap();
 		
 		if(rowCount > 0){
 			for(int i=0 ; i<rowCount ; i++){
@@ -434,7 +434,7 @@ public class NestedWebLogoInputer extends javax.swing.JFrame {
 			}						
 		}
 		
-		drawer.buildWebLogo(nestedWeblogoMap);
+//		drawer.buildWebLogo(nestedWeblogoMap);
 		this.dispose();
 		repaint();
 		drawer.repaint();

@@ -2,11 +2,13 @@ package edu.ufl.cise.bioinformatics.nestedweblogo.datastructure;
 
 import java.security.KeyStore.Entry;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import edu.ufl.cise.bioinformatics.nestedweblogo.NestedWebLogoDataStructure;
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.SequenceType;
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
 
@@ -24,6 +26,9 @@ public class WeblogoDataStructure {
 	private ArrayList<String> sequences;
 
 	private SequenceType sequenceType = SequenceType.DNA;
+	
+	Map<String,NestedWebLogoDataStructure> nestedWeblogoMap = new HashMap<String, NestedWebLogoDataStructure>();
+
 	
 	public double leftXPosition;
 	public double bottomYPosition;
@@ -221,6 +226,28 @@ public class WeblogoDataStructure {
 		this.sequences = sequences;
 	}
 	
+public void clearNestedWebLogoMap(){
+		
+		nestedWeblogoMap.clear();
+	}
 	
+	public void addEntryToNestedWebLogoMap(NestedWebLogoDataStructure nestedWebLogoDataStructure){
+		
+		String key = nestedWebLogoDataStructure.getWildCardPattern()+":"+nestedWebLogoDataStructure.getSourceWebLogoStartPosition()+":"
+		+nestedWebLogoDataStructure.getSourceWebLogoEndPosition()+":"+nestedWebLogoDataStructure.getTargetWebLogoStartPosition()+":"
+		+nestedWebLogoDataStructure.getTargetWebLogoEndPosition();
+		
+		nestedWeblogoMap.put(key, nestedWebLogoDataStructure);
+	}
+
+
+	public Map<String, NestedWebLogoDataStructure> getNestedWeblogoMap() {
+		return nestedWeblogoMap;
+	}
+
+
+	public void setNestedWeblogoMap(Map<String, NestedWebLogoDataStructure> nestedWeblogoMap) {
+		this.nestedWeblogoMap = nestedWeblogoMap;
+	}	
 	
 }
