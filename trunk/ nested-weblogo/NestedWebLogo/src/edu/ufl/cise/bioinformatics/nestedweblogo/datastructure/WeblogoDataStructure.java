@@ -102,9 +102,10 @@ public class WeblogoDataStructure {
 		else
 			s = 20;
 		//calculate error factor
-		double errorFactor;
-		errorFactor = (s -1)/(2*Math.log(2)*sequence.length);
-		System.out.println("Error Factor - "+errorFactor);
+		//double errorFactor;
+		
+
+
 		for(int i = 0;i< sequence[0].length();i++)
 		{
 			LinkedHashMap<String, Double> tempMap= new LinkedHashMap<String, Double>();
@@ -112,46 +113,77 @@ public class WeblogoDataStructure {
 			Double uncertanityAtIndex = 0.0, frequency;
 			//iterate over frequency table map and add it
 			buildFrequencyTable(i, sequence);
-			Iterator mapIter = frequencyTable.keySet().iterator();
-			//System.out.println("Size of frequency table - "+frequencyTable.size());
-			while(mapIter.hasNext())
-			{
-				String key =(String) mapIter.next();
-				frequency =  frequencyTable.get(key);	
-				//System.out.println(frequency);
-				uncertanityAtIndex = frequency * (Math.log(frequency)/Math.log(2)) + uncertanityAtIndex; 	
-			}
-			uncertanityAtIndex = uncertanityAtIndex * -1 ;
-			//calculate error factor
-			//calculate information at a index
-			double informationAtIndex;
-			if(sequenceType == SequenceType.DNA)
-				informationAtIndex = 2 - (uncertanityAtIndex + errorFactor);
-			else
-				// log 20 base 2
-				informationAtIndex = (Math.log(20)/Math.log(2)) - (uncertanityAtIndex + errorFactor);
 			
-			//multiply frequency of key with informationAtIndex
-			mapIter = frequencyTable.keySet().iterator();
-			while(mapIter.hasNext())
-			{
-				String key = (String) mapIter.next();
-				frequency = frequencyTable.get(key);
-				
-				//** To check for negative information frequency
-				if(informationAtIndex>=0)
-					tempMap.put(key, frequency*informationAtIndex);						
-			}
-			WeblogoColumn column = new WeblogoColumn();
+			
+					WeblogoColumn column = new WeblogoColumn();
+			tempMap = calculateHeightAtIndex(frequencyTable, sequence.length);
 			column.setCharactersMap(tempMap);
 			columnList.add(column);
-			
+
 			tempMap = null;
 			//flush out frequency table
 			frequencyTable.clear();
-		}		 				
+		}		
+		printHeightTable();
 	}
 	
+	public LinkedHashMap<String, Double> calculateHeightAtIndex(LinkedHashMap<String, Double> frequencyTable, int numOfSequences)
+	{
+		int s;
+		if(sequenceType == SequenceType.DNA)
+			s = 4;
+		else
+			s = 20;
+		System.out.println(" s : "+s);
+		Double sum = 0.0;
+		Double errorFactor = 0.0; 
+		errorFactor = (s -1)/((2*Math.log(2))*numOfSequences);
+		System.out.println("Error Factor - "+errorFactor);
+
+		Iterator mapIter = frequencyTable.keySet().iterator();
+		//System.out.println("Size of frequency table - "+frequencyTable.size());
+		while(mapIter.hasNext())
+		{
+			String key =(String) mapIter.next();
+			Double frequency =  frequencyTable.get(key);	
+			sum = sum + frequency;
+		}
+		LinkedHashMap<String, Double> one = new LinkedHashMap<String, Double>();
+		Double uncertainityAtIndex = 0.0;
+		int count = 0;
+		Iterator mapIter2 = frequencyTable.keySet().iterator();
+		while(mapIter2.hasNext())
+		{
+			String key = (String) mapIter2.next();
+			Double frequency = frequencyTable.get(key);
+			Double temp  = (frequency/sum)*((Math.log(frequency/sum))/(Math.log(2)));
+			if(temp.isNaN() == true)
+				temp = 0.0;
+			one.put(key, temp);
+			uncertainityAtIndex = uncertainityAtIndex + temp;
+		//	System.out.println("ONE "+count+" : "+temp);
+			count++;
+		}
+		
+		Double informationAtIndex;
+		informationAtIndex = (Math.log(s)/(Math.log(2))) - (-1*uncertainityAtIndex + errorFactor);
+		//System.out.println("uncertainityAtIndex : "+uncertainityAtIndex);
+		LinkedHashMap<String, Double> two = new LinkedHashMap<String, Double>();
+		count = 0;
+		Iterator mapIter3 = frequencyTable.keySet().iterator();
+		while(mapIter3.hasNext())
+		{
+			String key = (String) mapIter3.next();
+			Double frequency = frequencyTable.get(key);
+			Double temp = frequency/sum*informationAtIndex;
+			//System.out.println("TWO "+count+" :"+temp);
+			count ++;
+			if(temp>=0.0)
+				two.put(key, temp);
+		}	 	  	  	  	
+		return two;
+
+	}
 	public void printHeightTable()
 	{
 		int i = 0;
