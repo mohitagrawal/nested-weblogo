@@ -41,10 +41,6 @@ import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoDataStruct
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
 
 public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, ActionListener {
-	/**
-	 * 
-	 */
-	
 	
 	private String webLogoFilePath = "C:\\Users\\sagar\\MyStudy\\BioInformatics\\nestedsample.txt";
 	
@@ -66,6 +62,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	private int heightIncrementFactor = 50;
 	
 	private WeblogoDataStructure mainWebLogo = null;
+	
+	private boolean is3DHeatMap = false;
 	
 	private int heightFactor = 10;
 	
@@ -243,17 +241,17 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 //		drawWebLogo(graphics2DObject, columnList, bottomLeftXPosition , maximumAvailableHeight/4+40 , maximumAvailableWidth/4 , maximumAvailableHeight/4);
 		
-		recurssivelyDrawWebLogo(graphics2DObject, mainWebLogo, bottomLeftXPosition, bottomLeftYPosition, maximumAvailableWidth, maximumAvailableHeight);
+		recurssivelyDrawWebLogo(graphics2DObject, mainWebLogo, bottomLeftXPosition, bottomLeftYPosition, maximumAvailableWidth, maximumAvailableHeight,is3DHeatMap);
 		
-		drawYAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition, topLeftXPosition, topLeftYPosition );
+		drawYAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition, topLeftXPosition, topLeftYPosition, true);
 		
-		drawXAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition , bottomRightXPosition , bottomRightYPosition);
+		drawXAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition , bottomRightXPosition , bottomRightYPosition , maximumAvailableWidth/mainWebLogo.getColumnList().size());
 								
 	}
 	
-	public void recurssivelyDrawWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumAvailableWidth, float maximumAvailableHeight){
-		drawMainWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumAvailableWidth, maximumAvailableHeight);
-		drawNestedWebLogo(graphics2DObject, webLogo, bottomLeftXPosition, bottomLeftYPosition, maximumAvailableWidth, webLogo.getLogoBoundry().getBottomYPosition()-webLogo.getLogoBoundry().getTopYPosition());
+	public void recurssivelyDrawWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumAvailableWidth, float maximumAvailableHeight, boolean heatMap){
+		drawMainWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumAvailableWidth, maximumAvailableHeight,heatMap);
+		drawNestedWebLogo(graphics2DObject, webLogo, bottomLeftXPosition, bottomLeftYPosition, maximumAvailableWidth, webLogo.getLogoBoundry().getBottomYPosition()-webLogo.getLogoBoundry().getTopYPosition(),heatMap);
 	}
 	
 	
@@ -313,25 +311,30 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		return mainWebLogoInterval;
 	}
 	
-	public void drawMainWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight){
+	public void drawMainWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight,boolean heatMap){
 		// Get the interval
 		
 		if(webLogo.getNestedWeblogoMap() == null || webLogo.getNestedWeblogoMap().size() == 0){
-			draw3DWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,1,webLogo.getColumnList().size());
+			if(heatMap == true){
+				draw3DWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,1,webLogo.getColumnList().size());
+			}else{
+				drawWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,1,webLogo.getColumnList().size());
+			}			
 		}else{
 			int[][] validInterval = getValidIntervalForMainWebLogo(webLogo);
 			
 			for(int i=0 ; i<validInterval.length ; i++){
-				draw3DWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,validInterval[i][0],validInterval[i][1]);
+				if(heatMap == true){
+					draw3DWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,validInterval[i][0],validInterval[i][1]);
+				}else{
+					drawWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,validInterval[i][0],validInterval[i][1]);
+				}
 			}
 		}
-		
-		
-		
 		// draw web logo in that interval only
 	}
 	
-	public void drawNestedWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight){
+	public void drawNestedWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight, boolean heatMap){
 		
 		Map<String,NestedWebLogoDataStructure> nestedWeblogoMap = webLogo.getNestedWeblogoMap();
 		
@@ -391,7 +394,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			float newMaximumHeight = ((1) * (maximumHeight / numberOfWeblogoInColumn));
 			
 //			drawWebLogo(graphics2DObject, nestedWebLogo.getSourceWebLogo().getColumnList(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight, 1, nestedWebLogo.getSourceWebLogo().getColumnList().size());
-			recurssivelyDrawWebLogo(graphics2DObject, nestedWebLogo.getSourceWebLogo(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight);
+			recurssivelyDrawWebLogo(graphics2DObject, nestedWebLogo.getSourceWebLogo(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight,heatMap);
 			
 			//__________________________________________________________________________________________________________________________________
 			
@@ -403,7 +406,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			newMaximumHeight = ((1) * (maximumHeight / numberOfWeblogoInColumn));
 			
 //			drawWebLogo(graphics2DObject, nestedWebLogo.getTargetWebLogo().getColumnList(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight, 1, nestedWebLogo.getTargetWebLogo().getColumnList().size());
-			recurssivelyDrawWebLogo(graphics2DObject, nestedWebLogo.getTargetWebLogo(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight);
+			recurssivelyDrawWebLogo(graphics2DObject, nestedWebLogo.getTargetWebLogo(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight,heatMap);
 			
 		}
 		
@@ -413,10 +416,10 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		Color originalColor = graphics2DObject.getColor();
 		
-		graphics2DObject.setColor(Color.RED);
+		graphics2DObject.setColor(Color.BLACK);
 		Stroke originalStroke = graphics2DObject.getStroke();
 		
-		graphics2DObject.setStroke(new BasicStroke(4));
+		graphics2DObject.setStroke(new BasicStroke(2));
 		
 		Line2D line = new Line2D.Double(logoBoundry.getLeftXPosition(),logoBoundry.getTopYPosition(),logoBoundry.getLeftXPosition(),logoBoundry.getBottomYPosition());
 		graphics2DObject.draw(line);
@@ -432,25 +435,6 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		graphics2DObject.setStroke(originalStroke);
 		graphics2DObject.setColor(originalColor);
-	}
-	
-	private void drawXAxis(Graphics2D graphics2DObject, int bottomLeftXPosition, int topLeftYPosition, int bottomRightXPosition, int bottomRightYPosition){
-		Line2D line = new Line2D.Double(bottomLeftXPosition,topLeftYPosition,bottomRightXPosition,bottomRightYPosition);		
-		graphics2DObject.draw(line);
-	}
-	
-	private void drawYAxis(Graphics2D graphics2DObject, int bottomLeftXPosition, int bottomLeftYPosition, int topLeftXPosition, int topLeftYPosition){
-		Line2D line = new Line2D.Double(bottomLeftXPosition,bottomLeftYPosition,topLeftXPosition,topLeftYPosition);		
-		graphics2DObject.draw(line);
-	}
-
-	public float getHorizontalScalingFactor(float maximumWidth, int numberOfColumn){
-		if(numberOfColumn != 0){
-			return maximumWidth/numberOfColumn * 9;
-		}else{
-			return 1f;
-		}
-		
 	}
 	
 	private LogoBoundry getLogoBoundry(ArrayList<WeblogoColumn> columnList, float leftXPosition, float bottomYPosition, float maximumWidth, float maximumHeight){
@@ -495,6 +479,39 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			
 			}
 			
+			if(currentColumnSize < topYPosition){
+				topYPosition = currentColumnSize;
+			}
+			
+			rightXPosition  += (maximumWidth/(columnList.size()));
+		}
+		
+		boundry.setLeftXPosition(leftXPosition);
+		boundry.setRightXPosition(rightXPosition);
+		boundry.setBottomYPosition(bottomYPosition);
+		boundry.setTopYPosition(topYPosition);
+		
+		return boundry;
+	}
+	
+	private LogoBoundry get3DLogoBoundry(ArrayList<WeblogoColumn> columnList, float leftXPosition, float bottomYPosition, float maximumWidth, float maximumHeight){
+		
+		LogoBoundry boundry = new LogoBoundry();
+		
+		float rightXPosition = leftXPosition;
+		float topYPosition = bottomYPosition;
+		
+		for (WeblogoColumn weblogoColumn : columnList) {
+			Map<String, Double> charactersInColumnMap = weblogoColumn.getCharactersMap();
+
+			Set<String> characters = charactersInColumnMap.keySet();
+										
+			double heightFactor = maximumWidth/(columnList.size());
+			
+			float currentColumnSize = bottomYPosition;
+			
+			currentColumnSize -= (characters.size()*heightFactor);
+						
 			if(currentColumnSize < topYPosition){
 				topYPosition = currentColumnSize;
 			}
@@ -572,7 +589,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	
 	
 	private void drawChar(Graphics2D graphics2DObject, AffineTransform attributeTransform , String ch, float bottomLeftXPosition, float bottomLeftYPosition){
-		
+		Color oldColor = graphics2DObject.getColor();
 		AttributedString attributeString = new AttributedString(ch);
 		
 		if(attributeTransform != null){
@@ -598,7 +615,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		}
 		
 		graphics2DObject.drawString(attributeString.getIterator(), bottomLeftXPosition, bottomLeftYPosition);
-
+		graphics2DObject.setColor(oldColor);
 		
 	}
 
@@ -606,7 +623,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		ArrayList<WeblogoColumn> columnList = webLogo.getColumnList();
 		
-		LogoBoundry logoBoundry = getLogoBoundry(columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight);
+		LogoBoundry logoBoundry = get3DLogoBoundry(columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight);
 
 		webLogo.setLogoBoundry(logoBoundry);
 		int count = 1;
@@ -620,7 +637,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			bottomLeftXPosition  += (maximumWidth/(columnList.size()));
 			
 		}			
-//		drawBorder(graphics2DObject, logoBoundry);
+		drawBorder(graphics2DObject, logoBoundry);
 	}
 	
 	private void draw3DColumn(Graphics2D graphics2DObject, WeblogoColumn column, float bottomLeftXPosition, float bottomLeftYPosition, float columnWidth, float maximumHeight){
@@ -634,7 +651,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			
 			float characterHeight = columnWidth;
 			
-			draw3DBlock(graphics2DObject, character, bottomLeftXPosition, bottomLeftYPosition,columnWidth,characterHeight);
+			draw3DBlock(graphics2DObject, character, bottomLeftXPosition, bottomLeftYPosition,columnWidth,characterHeight,charactersInColumnMap.get(character));
 			
 			bottomLeftYPosition -= characterHeight;	
 		
@@ -642,31 +659,46 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	}
 	
 	
-	private void draw3DBlock(Graphics2D graphics2DObject, String ch, float bottomLeftXPosition, float bottomLeftYPosition, float width, float height){
+	private void draw3DBlock(Graphics2D graphics2DObject, String ch, float bottomLeftXPosition, float bottomLeftYPosition, float width, float height,double characterHeight){
+		
+		Color originalColor = graphics2DObject.getColor();
+				 
 		
 		graphics2DObject.setColor(Color.BLACK);
 		
 		if(ch.equals("A")){
-			graphics2DObject.setColor(Color.GREEN);	
+			// green
+//			Color newColor = new Color(127,255,127);			
+			Color newColor = new Color(0,(int)(250-(50+(characterHeight*80))),0);
+			graphics2DObject.setColor(newColor);	
 		}
 		
 		if(ch.equals("T")){
-			graphics2DObject.setColor(Color.RED);	
+			//red
+			Color newColor = new Color((int)(250-(50+(characterHeight*80))),0,0);
+			graphics2DObject.setColor(newColor);
+//			graphics2DObject.setColor(Color.RED);	
 		}
 		
 		if(ch.equals("G")){
-			graphics2DObject.setColor(Color.YELLOW);	
+			//yellow
+			Color newColor = new Color((int)(250-(50+(characterHeight*80))),(int)(250-(50+(characterHeight*80))),0);
+			graphics2DObject.setColor(newColor);
+//			graphics2DObject.setColor(Color.YELLOW);	
 		}
 		
 		if(ch.equals("C")){
-			graphics2DObject.setColor(Color.BLUE);
+			// blue
+			Color newColor = new Color(0,0,(int)(250-(50+(characterHeight*80))));
+			graphics2DObject.setColor(newColor);
+//			graphics2DObject.setColor(Color.BLUE);
 		}
 		
 //		graphics2DObject.drawString(attributeString.getIterator(), bottomLeftXPosition, bottomLeftYPosition);
 		graphics2DObject.fill3DRect((int)bottomLeftXPosition, (int)(bottomLeftYPosition-height), (int)width,(int) height, true);
 //		graphics2DObject.drawString("Temp", bottomLeftXPosition, bottomLeftYPosition);
 		
-		graphics2DObject.setColor(Color.BLACK);
+		graphics2DObject.setColor(originalColor);
 	}
 
 	
@@ -743,7 +775,13 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		// Create a menu item
 		JMenuItem item = new JMenuItem("Create");
-		item.addActionListener(charTest);
+		item.addActionListener(charTest);		
+		menu.add(item);
+		item = new JMenuItem("HeatMap");
+		item.addActionListener(charTest);		
+		menu.add(item);
+		item = new JMenuItem("NestedWebLogo");
+		item.addActionListener(charTest);		
 		menu.add(item);
 		
 		menu = new JMenu("Nested Weblogo");
@@ -785,8 +823,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	    System.out.println("Modified path: "+path);
 	    webLogoFilePath = path;
 	    WeblogoDataStructure dataStructure =  utilities.getWeblogoDS(chooser.getSelectedFile().getAbsolutePath());
-	    /*columnList = dataStructure.getColumnList();
-	    this.clearNestedWebLogoMap();*/
+	    mainWebLogo = dataStructure;
 	    this.repaint();
 	}
 	
@@ -822,10 +859,27 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 
 		if(obj instanceof JMenuItem){
 
+			
 			JMenuItem item = (JMenuItem) obj;
+			
+			System.out.println("Item : "+item.getText());
 			
 			if(item.getText().equalsIgnoreCase("add")){
 				getWildCardPattern();
+			}
+			
+			if(item.getText().equalsIgnoreCase("HeatMap")){
+				if(is3DHeatMap == false){
+					is3DHeatMap = true;				
+					repaint();
+				}				
+			}
+			
+			if(item.getText().equalsIgnoreCase("NestedWebLogo")){
+				if(is3DHeatMap == true){
+					is3DHeatMap = false;
+					repaint();
+				}				
 			}
 			
 			if(item.getText().equalsIgnoreCase("Create")){
@@ -837,6 +891,41 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(preferredSizeWidth, preferredSizeHeight);
+	}
+	
+
+	private void drawXAxis(Graphics2D graphics2DObject, int bottomLeftXPosition, int topLeftYPosition, int bottomRightXPosition, int bottomRightYPosition,float interval){
+		Line2D line = new Line2D.Double(bottomLeftXPosition,topLeftYPosition,bottomRightXPosition,bottomRightYPosition);		
+		graphics2DObject.draw(line);
+		for(int i=bottomLeftXPosition ; i<bottomRightXPosition ; i++){
+			line = new Line2D.Double(i,bottomRightYPosition-5,i,bottomRightYPosition+5);
+			i+=interval;
+			graphics2DObject.draw(line);
+		}
+	}
+	
+	private void drawYAxis(Graphics2D graphics2DObject, int bottomLeftXPosition, int bottomLeftYPosition, int topLeftXPosition, int topLeftYPosition, boolean isDNASequence){		
+		Line2D line = new Line2D.Double(bottomLeftXPosition,bottomLeftYPosition,topLeftXPosition,topLeftYPosition);
+		graphics2DObject.draw(line);
+
+		for(int i=1 ; i<=2 ; i++){
+			double newYCorrdinate = bottomLeftYPosition - i*((bottomLeftYPosition-topLeftYPosition)/2.5);
+			line = new Line2D.Double(bottomLeftXPosition-5,newYCorrdinate,bottomLeftXPosition+5,newYCorrdinate);
+			graphics2DObject.draw(line);
+		}
+		
+		line = new Line2D.Double(bottomLeftXPosition-5,topLeftYPosition,bottomLeftXPosition+5,topLeftYPosition);
+		graphics2DObject.draw(line);
+
+	}
+
+	public float getHorizontalScalingFactor(float maximumWidth, int numberOfColumn){
+		if(numberOfColumn != 0){
+			return maximumWidth/numberOfColumn * 9;
+		}else{
+			return 1f;
+		}
+		
 	}
 	
 }
