@@ -59,13 +59,15 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 
 //	ArrayList<WeblogoColumn> columnList = new ArrayList<WeblogoColumn>();
 	
-	private int preferredSizeWidth = 800;
-	private int preferredSizeHeight = 800;
+	private int preferredSizeWidth = 400;
+	private int preferredSizeHeight = 400;
 	
 	private int widthIncrementFactor = 50;
 	private int heightIncrementFactor = 50;
 	
 	private WeblogoDataStructure mainWebLogo = null;
+	
+	private int heightFactor = 10;
 	
 	private enum LineType {
 		HORIZONTAL, VERTICAL
@@ -77,22 +79,24 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	 * Inits the.
 	 */
 	public void init(){
-		test();
+//		test();
 		
-	    /*Utilities utilities = new Utilities();
+	    Utilities utilities = new Utilities();
+
 
 		WeblogoDataStructure dataStructure =  utilities.getWeblogoDS(webLogoFilePath);
-	    columnList = dataStructure.getColumnList();
+		mainWebLogo = dataStructure;
+		mainWebLogo.setNestedWeblogoMap(null);
 		
-		NestedWebLogoCreator creator = new NestedWebLogoCreator(webLogoFilePath);
+		/*NestedWebLogoCreator creator = new NestedWebLogoCreator(webLogoFilePath);
 		NestedWebLogoDataStructure nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "A.*");
-		addEntryToNestedWebLogoMap(nestedLogo);
+		mainWebLogo.addEntryToNestedWebLogoMap(nestedLogo);
 
 		nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "T.*");
-		addEntryToNestedWebLogoMap(nestedLogo);
+		mainWebLogo.addEntryToNestedWebLogoMap(nestedLogo);*/
 		
-		nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "TA.*");
-		addEntryToNestedWebLogoMap(nestedLogo);*/
+//		nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "TA.*");
+//		mainWebLogo.addEntryToNestedWebLogoMap(nestedLogo);
 		
 	}	
 	
@@ -228,12 +232,12 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		int bottomLeftXPosition = 60;
 		int topLeftXPosition = 60;
-		int topLeftYPosition = 42;
-		int bottomLeftYPosition = getHeight()-42;
-		int bottomRightYPosition = getHeight()-42;
+		int topLeftYPosition = 20;
+		int bottomLeftYPosition = getHeight()-20;
+		int bottomRightYPosition = getHeight()-20;
 		int bottomRightXPosition = getWidth()-100;
 		int maximumAvailableWidth = getWidth()-100;
-		float maximumAvailableHeight = getHeight()-142;
+		float maximumAvailableHeight = getHeight()-topLeftYPosition;
 		
 //		drawWebLogo(graphics2DObject, columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumAvailableWidth, maximumAvailableHeight);
 		
@@ -249,7 +253,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	
 	public void recurssivelyDrawWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumAvailableWidth, float maximumAvailableHeight){
 		drawMainWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumAvailableWidth, maximumAvailableHeight);
-		drawNestedWebLogo(graphics2DObject, webLogo, bottomLeftXPosition, bottomLeftYPosition, maximumAvailableWidth, maximumAvailableHeight);
+		drawNestedWebLogo(graphics2DObject, webLogo, bottomLeftXPosition, bottomLeftYPosition, maximumAvailableWidth, webLogo.getLogoBoundry().getBottomYPosition()-webLogo.getLogoBoundry().getTopYPosition());
 	}
 	
 	
@@ -313,12 +317,12 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		// Get the interval
 		
 		if(webLogo.getNestedWeblogoMap() == null || webLogo.getNestedWeblogoMap().size() == 0){
-			draw3DWebLogo(graphics2DObject, webLogo.getColumnList(), bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,1,webLogo.getColumnList().size());
+			draw3DWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,1,webLogo.getColumnList().size());
 		}else{
 			int[][] validInterval = getValidIntervalForMainWebLogo(webLogo);
 			
 			for(int i=0 ; i<validInterval.length ; i++){
-				draw3DWebLogo(graphics2DObject, webLogo.getColumnList(), bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,validInterval[i][0],validInterval[i][1]);
+				draw3DWebLogo(graphics2DObject, webLogo, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight,validInterval[i][0],validInterval[i][1]);
 			}
 		}
 		
@@ -477,8 +481,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 				
 			}
 			
-			float heightFactor = maximumHeight/totalHeight;
-			heightFactor = heightFactor / 8.6f;
+			double heightFactor = maximumHeight/(2.5*8.6);
 			
 			float currentColumnSize = bottomYPosition;
 			
@@ -507,10 +510,14 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		return boundry;
 	}
 	
-	private void drawWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight, int startPosition, int endPosition){
+	private void drawWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight, int startPosition, int endPosition){
+		
+		ArrayList<WeblogoColumn> columnList = webLogo.getColumnList();
 		
 		LogoBoundry logoBoundry = getLogoBoundry(columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight);
 
+		webLogo.setLogoBoundry(logoBoundry);
+		
 		int count = 1;
 		
 		for (WeblogoColumn weblogoColumn : columnList) {
@@ -543,8 +550,10 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			
 		}
 		
-		float heightFactor = maximumHeight/totalHeight;
-		heightFactor = heightFactor / 8.6f;
+		double heightFactor = maximumHeight/(2.5*8.6);
+//		heightFactor = heightFactor / 8.6f;
+		
+//		heightFactor = 50.0f;
 		
 		for (String character : characters) {
 			
@@ -593,10 +602,13 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 	}
 
-	private void draw3DWebLogo(Graphics2D graphics2DObject, ArrayList<WeblogoColumn> columnList, float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight, int startPosition, int endPosition){
+	private void draw3DWebLogo(Graphics2D graphics2DObject,WeblogoDataStructure webLogo , float bottomLeftXPosition, float bottomLeftYPosition, float maximumWidth, float maximumHeight, int startPosition, int endPosition){
+		
+		ArrayList<WeblogoColumn> columnList = webLogo.getColumnList();
 		
 		LogoBoundry logoBoundry = getLogoBoundry(columnList, bottomLeftXPosition , bottomLeftYPosition  , maximumWidth, maximumHeight);
 
+		webLogo.setLogoBoundry(logoBoundry);
 		int count = 1;
 		
 		for (WeblogoColumn weblogoColumn : columnList) {
@@ -651,9 +663,10 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		}
 		
 //		graphics2DObject.drawString(attributeString.getIterator(), bottomLeftXPosition, bottomLeftYPosition);
-		graphics2DObject.fill3DRect((int)bottomLeftXPosition, (int)bottomLeftYPosition, (int)width,(int) height, true);
-
+		graphics2DObject.fill3DRect((int)bottomLeftXPosition, (int)(bottomLeftYPosition-height), (int)width,(int) height, true);
+//		graphics2DObject.drawString("Temp", bottomLeftXPosition, bottomLeftYPosition);
 		
+		graphics2DObject.setColor(Color.BLACK);
 	}
 
 	
@@ -680,7 +693,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			preferredSizeHeight -= heightIncrementFactor;
 		}
 		
-		System.out.println(preferredSizeWidth+" : "+preferredSizeHeight);
+//		System.out.println(preferredSizeWidth+" : "+preferredSizeHeight);
 		
 		this.setSize(new Dimension(preferredSizeWidth,preferredSizeHeight));
 		this.repaint();
@@ -704,7 +717,6 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 //		int[][] arr = charTest.getValidIntervalForMainWebLogo();
 		
 				
-//		charTest.setPreferredSize(new Dimension(800, 800));
 		charTest.addMouseWheelListener(charTest);
 		
 		JScrollPane pane = new JScrollPane(charTest,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -716,7 +728,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-		frame.setSize(new Dimension(400, 400));
+		frame.setSize(new Dimension(600, 400));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		

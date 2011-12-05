@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import edu.ufl.cise.bioinformatics.nestedweblogo.LogoBoundry;
 import edu.ufl.cise.bioinformatics.nestedweblogo.NestedWebLogoDataStructure;
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.SequenceType;
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
@@ -28,6 +29,8 @@ public class WeblogoDataStructure {
 	private SequenceType sequenceType = SequenceType.DNA;
 	
 	Map<String,NestedWebLogoDataStructure> nestedWeblogoMap = new HashMap<String, NestedWebLogoDataStructure>();
+	
+	private LogoBoundry logoBoundry;
 
 	
 	public double leftXPosition;
@@ -226,7 +229,7 @@ public class WeblogoDataStructure {
 		this.sequences = sequences;
 	}
 	
-public void clearNestedWebLogoMap(){
+	public void clearNestedWebLogoMap(){
 		
 		nestedWeblogoMap.clear();
 	}
@@ -240,14 +243,21 @@ public void clearNestedWebLogoMap(){
 		nestedWeblogoMap.put(key, nestedWebLogoDataStructure);
 	}
 
-
 	public Map<String, NestedWebLogoDataStructure> getNestedWeblogoMap() {
 		return nestedWeblogoMap;
 	}
 
-
 	public void setNestedWeblogoMap(Map<String, NestedWebLogoDataStructure> nestedWeblogoMap) {
 		this.nestedWeblogoMap = nestedWeblogoMap;
+	}
+
+
+	public LogoBoundry getLogoBoundry() {
+		return logoBoundry;
+	}
+
+	public void setLogoBoundry(LogoBoundry logoBoundry) {
+		this.logoBoundry = logoBoundry;
 	}	
 	
 }
