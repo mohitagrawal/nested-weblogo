@@ -64,8 +64,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	private WeblogoDataStructure mainWebLogo = null;
 	
 	private boolean is3DHeatMap = false;
-	
-	private int heightFactor = 10;
+
+	private float characterHeight = 8.6f;
 	
 	private enum LineType {
 		HORIZONTAL, VERTICAL
@@ -77,14 +77,14 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	 * Inits the.
 	 */
 	public void init(){
-//		test();
+		test();
 		
-	    Utilities utilities = new Utilities();
+	    /*Utilities utilities = new Utilities();
 
 
 		WeblogoDataStructure dataStructure =  utilities.getWeblogoDS(webLogoFilePath);
 		mainWebLogo = dataStructure;
-		mainWebLogo.setNestedWeblogoMap(null);
+		mainWebLogo.setNestedWeblogoMap(null);*/
 		
 		/*NestedWebLogoCreator creator = new NestedWebLogoCreator(webLogoFilePath);
 		NestedWebLogoDataStructure nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "A.*");
@@ -104,10 +104,10 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		WeblogoDataStructure webLogo = WeblogoDataStructure.getInstance();
 		
 		LinkedHashMap<String, Double> charactersMap = new LinkedHashMap<String, Double>();
-		charactersMap.put("A", 1.0);
-		charactersMap.put("T", 2.0);
-		charactersMap.put("G", 3.0);
-		charactersMap.put("C", 4.0);
+		charactersMap.put("A", 0.12);
+		charactersMap.put("T", 0.25);
+		charactersMap.put("G", 0.50);
+		charactersMap.put("C", 1.0);
 		
 		
 		ArrayList<WeblogoColumn> columnList = new ArrayList<WeblogoColumn>();
@@ -137,26 +137,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		columnList.add(column);
 		columnList.add(column);
 		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
-		columnList.add(column);
+
 		
 		webLogo.setColumnList(columnList);
 		
@@ -190,8 +171,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		columnList = new ArrayList<WeblogoColumn>();
 		charactersMap = new LinkedHashMap<String, Double>();
-		charactersMap.put("A", 1.0);
-		charactersMap.put("T", 2.0);
+		charactersMap.put("A", 0.5);
+		charactersMap.put("T", 1.0);
 		column = new WeblogoColumn();
 		column.setCharactersMap(charactersMap);
 		columnList.add(column);
@@ -465,7 +446,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 				
 			}
 			
-			double heightFactor = maximumHeight/(2.5*8.6);
+			double heightFactor = maximumHeight/(2.5*this.characterHeight);
 			
 			float currentColumnSize = bottomYPosition;
 			
@@ -475,7 +456,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 				
 				characterHeight *= heightFactor;
 				
-				currentColumnSize -= characterHeight * 8.6;	
+				currentColumnSize -= characterHeight * this.characterHeight;	
 			
 			}
 			
@@ -567,8 +548,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			
 		}
 		
-		double heightFactor = maximumHeight/(2.5*8.6);
-//		heightFactor = heightFactor / 8.6f;
+		double heightFactor = maximumHeight/(2.5*this.characterHeight);
+//		heightFactor = heightFactor / this.characterHeightf;
 		
 //		heightFactor = 50.0f;
 		
@@ -582,7 +563,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			
 			drawChar(graphics2DObject, attributeTransform, character, bottomLeftXPosition, bottomLeftYPosition);
 			
-			bottomLeftYPosition -= characterHeight * 8.6;	
+			bottomLeftYPosition -= characterHeight * this.characterHeight;	
 		
 		}
 	}
