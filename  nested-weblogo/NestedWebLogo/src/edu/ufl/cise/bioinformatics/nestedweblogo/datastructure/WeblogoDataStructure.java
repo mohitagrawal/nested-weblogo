@@ -38,6 +38,10 @@ public class WeblogoDataStructure {
 	public double rightXPosition;
 	public double topXPosition;
 	
+	
+	private int startPosition;
+	private int endPosition;
+	
 	private int weblogoID;
 	
 	private static Integer counter = 0;
@@ -236,9 +240,9 @@ public class WeblogoDataStructure {
 	
 	public void addEntryToNestedWebLogoMap(NestedWebLogoDataStructure nestedWebLogoDataStructure){
 		
-		String key = nestedWebLogoDataStructure.getWildCardPattern()+":"+nestedWebLogoDataStructure.getSourceWebLogoStartPosition()+":"
-		+nestedWebLogoDataStructure.getSourceWebLogoEndPosition()+":"+nestedWebLogoDataStructure.getTargetWebLogoStartPosition()+":"
-		+nestedWebLogoDataStructure.getTargetWebLogoEndPosition();
+		String key = nestedWebLogoDataStructure.getWildCardPattern()+":"+nestedWebLogoDataStructure.getSourceWebLogo().getStartPosition()+":"
+		+nestedWebLogoDataStructure.getSourceWebLogo().getEndPosition()+":"+nestedWebLogoDataStructure.getTargetWebLogo().getStartPosition()+":"
+		+nestedWebLogoDataStructure.getTargetWebLogo().getEndPosition();
 		
 		nestedWeblogoMap.put(key, nestedWebLogoDataStructure);
 	}
@@ -258,6 +262,25 @@ public class WeblogoDataStructure {
 
 	public void setLogoBoundry(LogoBoundry logoBoundry) {
 		this.logoBoundry = logoBoundry;
+	}
+
+
+	public int getStartPosition() {
+		return startPosition;
+	}
+
+
+	public void setStartPosition(int startPosition) {
+		this.startPosition = startPosition;
+	}
+
+
+	public int getEndPosition() {
+		return endPosition;
+	}
+
+
+	public void setEndPosition(int endPosition) {
+		this.endPosition = endPosition;
 	}	
-	
 }

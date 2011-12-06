@@ -47,51 +47,55 @@ public class NestedWebLogoDataStructure {
 
 
 
-	public int getSourceWebLogoStartPosition() {
-		return sourceWebLogoStartPosition;
+	/*public int getSourceWebLogoStartPosition() {
+		return sourceWebLogo.getStartPosition();
 	}
 
 
 
 	public void setSourceWebLogoStartPosition(int sourceWebLogoStartPosition) {
-		this.sourceWebLogoStartPosition = sourceWebLogoStartPosition;
+		sourceWebLogo.setStartPosition(sourceWebLogoStartPosition);
+//		this.sourceWebLogoStartPosition = sourceWebLogoStartPosition;
 	}
 
 
 
 	public int getSourceWebLogoEndPosition() {
-		return sourceWebLogoEndPosition;
+		return sourceWebLogo.getEndPosition();
 	}
 
 
 
 	public void setSourceWebLogoEndPosition(int sourceWebLogoEndPosition) {
-		this.sourceWebLogoEndPosition = sourceWebLogoEndPosition;
+		sourceWebLogo.setEndPosition(sourceWebLogoEndPosition);
+//		this.sourceWebLogoEndPosition = sourceWebLogoEndPosition;
 	}
 
 
 
 	public int getTargetWebLogoStartPosition() {
-		return targetWebLogoStartPosition;
+		return targetWebLogo.getStartPosition();
 	}
 
 
 
 	public void setTargetWebLogoStartPosition(int targetWebLogoStartPosition) {
-		this.targetWebLogoStartPosition = targetWebLogoStartPosition;
+		targetWebLogo.setStartPosition(targetWebLogoStartPosition);
+//		this.targetWebLogoStartPosition = targetWebLogoStartPosition;
 	}
 
 
 
 	public int getTargetWebLogoEndPosition() {
-		return targetWebLogoEndPosition;
+		return targetWebLogo.getEndPosition();
 	}
 
 
 
 	public void setTargetWebLogoEndPosition(int targetWebLogoEndPosition) {
-		this.targetWebLogoEndPosition = targetWebLogoEndPosition;
-	}
+		targetWebLogo.setEndPosition(targetWebLogoEndPosition);
+//		this.targetWebLogoEndPosition = targetWebLogoEndPosition;
+	}*/
 
 
 

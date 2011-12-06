@@ -417,7 +417,7 @@ public class NestedWebLogoInputer extends javax.swing.JFrame {
 				
 				patternTable.getModel().getValueAt(i, 0);
 				
-				NestedWebLogoDataStructure nestedWebLogo = new NestedWebLogoDataStructure();
+			/*	NestedWebLogoDataStructure nestedWebLogo = new NestedWebLogoDataStructure();
 				nestedWebLogo.setWildCardPattern((String)patternTable.getModel().getValueAt(i, 0));
 				nestedWebLogo.setSourceWebLogoStartPosition(Integer.parseInt((String)patternTable.getModel().getValueAt(i, 1)));
 				nestedWebLogo.setSourceWebLogoEndPosition(Integer.parseInt((String)patternTable.getModel().getValueAt(i, 2)));
@@ -428,7 +428,7 @@ public class NestedWebLogoInputer extends javax.swing.JFrame {
 				+nestedWebLogo.getSourceWebLogoEndPosition()+":"+nestedWebLogo.getTargetWebLogoStartPosition()+":"
 				+nestedWebLogo.getTargetWebLogoEndPosition();
 				
-				nestedWeblogoMap.put(key, nestedWebLogo);
+				nestedWeblogoMap.put(key, nestedWebLogo);*/
 				
 //				drawer.addEntryToNestedWebLogoMap(nestedWebLogo);
 			}						

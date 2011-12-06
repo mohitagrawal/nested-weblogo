@@ -84,13 +84,13 @@ public class NestedWebLogoCreator {
 
 		sourceWeblogo.setSequences(matchedSourceSubSequence);
 		nestedWeblogo.setSourceWebLogo(sourceWeblogo);
-		nestedWeblogo.setSourceWebLogoEndPosition(sourceEnd + 1);
-		nestedWeblogo.setSourceWebLogoStartPosition(sourceStart + 1);
+		nestedWeblogo.getSourceWebLogo().setEndPosition(sourceEnd + 1);
+		nestedWeblogo.getSourceWebLogo().setStartPosition(sourceStart + 1);
 
 		targetWeblogo.setSequences(matchedTargetSubSequence);
 		nestedWeblogo.setTargetWebLogo(targetWeblogo);
-		nestedWeblogo.setTargetWebLogoEndPosition(targetEnd + 1);
-		nestedWeblogo.setTargetWebLogoStartPosition(targetStart + 1);
+		nestedWeblogo.getTargetWebLogo().setEndPosition(targetEnd + 1);
+		nestedWeblogo.getTargetWebLogo().setStartPosition(targetStart + 1);
 		nestedWeblogo.setWildCardPattern(wildCard);
 		return nestedWeblogo;
 	}
