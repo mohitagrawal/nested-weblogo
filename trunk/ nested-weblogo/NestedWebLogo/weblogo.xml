@@ -1,0 +1,44 @@
+<weblogo>
+	<start>1</start>
+	<end>22</end>
+	<NestedWebLogo>
+		<wildcard>ABCD</wildcard>
+
+		<weblogo type="source">
+			<start> 2</start>
+			<end> 9</end>
+
+			<NestedWebLogo>
+				<wildcard> XYZ</wildcard>
+
+				<weblogo type="source">
+					<start> 2</start>
+					<end> 8</end>
+				</weblogo>
+				<weblogo type="target">
+					<start> 4</start>
+					<end> 9</end>
+				</weblogo>
+			</NestedWebLogo>
+
+		</weblogo>
+
+		<weblogo type="target">
+			<start> 11</start>
+			<end> 19</end>
+
+			<NestedWebLogo>
+				<wildcard>OPMN</wildcard>
+
+				<weblogo type="source">
+					<start>2</start>
+					<end>8</end>
+				</weblogo>
+				<weblogo type="target">
+					<start>2</start>
+					<end>8</end>
+				</weblogo>
+			</NestedWebLogo>
+		</weblogo>
+	</NestedWebLogo>
+</weblogo>

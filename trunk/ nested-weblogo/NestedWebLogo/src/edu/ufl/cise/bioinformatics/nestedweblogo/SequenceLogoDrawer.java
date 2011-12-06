@@ -151,23 +151,27 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		columnList.add(column);
 		columnList.add(column);
 		
-		WeblogoDataStructure innerWebLogo = WeblogoDataStructure.getInstance();
-		innerWebLogo.setColumnList(columnList);
+		WeblogoDataStructure innerSourceWebLogo = WeblogoDataStructure.getInstance();
+		innerSourceWebLogo.setColumnList(columnList);
+		
+		WeblogoDataStructure innerTargetWebLogo = WeblogoDataStructure.getInstance();
+		innerTargetWebLogo.setColumnList(columnList);
 		
 		NestedWebLogoDataStructure nestedWebLogoDataStructure = new NestedWebLogoDataStructure();
-		nestedWebLogoDataStructure.setSourceWebLogo(innerWebLogo);
-		nestedWebLogoDataStructure.setTargetWebLogo(innerWebLogo);
-		nestedWebLogoDataStructure.setSourceWebLogoStartPosition(2);
-		nestedWebLogoDataStructure.setSourceWebLogoEndPosition(9);
 		
-		nestedWebLogoDataStructure.setTargetWebLogoStartPosition(12);
-		nestedWebLogoDataStructure.setTargetWebLogoEndPosition(19);
+		innerSourceWebLogo.setStartPosition(2);
+		innerSourceWebLogo.setEndPosition(9);
+		nestedWebLogoDataStructure.setSourceWebLogo(innerSourceWebLogo);
+
+		innerTargetWebLogo.setStartPosition(12);
+		innerTargetWebLogo.setEndPosition(19);
+		nestedWebLogoDataStructure.setTargetWebLogo(innerTargetWebLogo);
 		
 		nestedWebLogoDataStructure.setWildCardPattern("ABCD");
 		webLogo.addEntryToNestedWebLogoMap(nestedWebLogoDataStructure);
 		
 		
-		WeblogoDataStructure innerInnerWebLogo = WeblogoDataStructure.getInstance();
+		WeblogoDataStructure innerInnerSourceWebLogo = WeblogoDataStructure.getInstance();
 		
 		columnList = new ArrayList<WeblogoColumn>();
 		charactersMap = new LinkedHashMap<String, Double>();
@@ -177,21 +181,25 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		column.setCharactersMap(charactersMap);
 		columnList.add(column);
 		columnList.add(column);
-		innerInnerWebLogo.setColumnList(columnList);
+		innerInnerSourceWebLogo.setColumnList(columnList);
+		
+		WeblogoDataStructure innerInnerTargetWebLogo = WeblogoDataStructure.getInstance();
+		innerInnerTargetWebLogo.setColumnList(columnList);
 		
 		NestedWebLogoDataStructure innerNestedWebLogoDataStructure = new NestedWebLogoDataStructure();
-		innerNestedWebLogoDataStructure.setSourceWebLogo(innerInnerWebLogo);
-		innerNestedWebLogoDataStructure.setTargetWebLogo(innerInnerWebLogo);
-		innerNestedWebLogoDataStructure.setSourceWebLogoStartPosition(2);
-		innerNestedWebLogoDataStructure.setSourceWebLogoEndPosition(3);
-		
-		innerNestedWebLogoDataStructure.setTargetWebLogoStartPosition(5);
-		innerNestedWebLogoDataStructure.setTargetWebLogoEndPosition(6);
+
+		innerInnerSourceWebLogo.setStartPosition(2);
+		innerInnerSourceWebLogo.setEndPosition(3);
+		innerNestedWebLogoDataStructure.setSourceWebLogo(innerInnerSourceWebLogo);
+
+		innerInnerTargetWebLogo.setStartPosition(5);
+		innerInnerTargetWebLogo.setEndPosition(6);
+		innerNestedWebLogoDataStructure.setTargetWebLogo(innerInnerTargetWebLogo);
 		
 		innerNestedWebLogoDataStructure.setWildCardPattern("ABCD");
-		innerWebLogo.addEntryToNestedWebLogoMap(innerNestedWebLogoDataStructure);
+		innerSourceWebLogo.addEntryToNestedWebLogoMap(innerNestedWebLogoDataStructure);
 		innerNestedWebLogoDataStructure.setWildCardPattern("XYZW");
-		innerWebLogo.addEntryToNestedWebLogoMap(innerNestedWebLogoDataStructure);
+		innerTargetWebLogo.addEntryToNestedWebLogoMap(innerNestedWebLogoDataStructure);
 
 		
 		mainWebLogo = webLogo;
@@ -256,13 +264,13 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 //			System.out.println("Key: " +key);
 			NestedWebLogoDataStructure nestedWebLogo = nestedWeblogoMap.get(key);
 
-			intervalSet[count][0] = nestedWebLogo.getSourceWebLogoStartPosition();
-			intervalSet[count][1] = nestedWebLogo.getSourceWebLogoEndPosition();
+			intervalSet[count][0] = nestedWebLogo.getSourceWebLogo().getStartPosition();
+			intervalSet[count][1] = nestedWebLogo.getSourceWebLogo().getEndPosition();
 			
 			count++;
 		
-			intervalSet[count][0] = nestedWebLogo.getTargetWebLogoStartPosition();
-			intervalSet[count][1] = nestedWebLogo.getTargetWebLogoEndPosition();
+			intervalSet[count][0] = nestedWebLogo.getTargetWebLogo().getStartPosition();
+			intervalSet[count][1] = nestedWebLogo.getTargetWebLogo().getEndPosition();
 			
 			count++;
 		}
@@ -334,7 +342,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		for (String key : keys) {
 			NestedWebLogoDataStructure nestedWebLogo =  nestedWeblogoMap.get(key);
 			
-			String columnKey = nestedWebLogo.getSourceWebLogoStartPosition()+":"+nestedWebLogo.getSourceWebLogoEndPosition();
+			String columnKey = nestedWebLogo.getSourceWebLogo().getStartPosition()+":"+nestedWebLogo.getSourceWebLogo().getEndPosition();
 			
 			int numberOfWeblogoInColumn = 1;
 			
@@ -351,7 +359,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		for (String key : keys) {
 			NestedWebLogoDataStructure nestedWebLogo =  nestedWeblogoMap.get(key);
 			
-			String columnKey = nestedWebLogo.getSourceWebLogoStartPosition()+":"+nestedWebLogo.getSourceWebLogoEndPosition();
+			String columnKey = nestedWebLogo.getSourceWebLogo().getStartPosition()+":"+nestedWebLogo.getSourceWebLogo().getEndPosition();
 			
 			int numberOfWeblogoInColumn = 1;
 			
@@ -369,9 +377,9 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			
 			
 			
-			float startXPosition = 	bottomLeftXPosition  +  ( (nestedWebLogo.getSourceWebLogoStartPosition()-1) * (maximumWidth/columnList.size()));
+			float startXPosition = 	bottomLeftXPosition  +  ( (nestedWebLogo.getSourceWebLogo().getStartPosition()-1) * (maximumWidth/columnList.size()));
 			
-			float newMaximumWidth = ( (nestedWebLogo.getSourceWebLogoEndPosition()-nestedWebLogo.getSourceWebLogoStartPosition()+1) * (maximumWidth/columnList.size()));
+			float newMaximumWidth = ( (nestedWebLogo.getSourceWebLogo().getEndPosition()-nestedWebLogo.getSourceWebLogo().getStartPosition()+1) * (maximumWidth/columnList.size()));
 			float newMaximumHeight = ((1) * (maximumHeight / numberOfWeblogoInColumn));
 			
 //			drawWebLogo(graphics2DObject, nestedWebLogo.getSourceWebLogo().getColumnList(), startXPosition, startYPosition, newMaximumWidth, newMaximumHeight, 1, nestedWebLogo.getSourceWebLogo().getColumnList().size());
@@ -380,9 +388,9 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 			//__________________________________________________________________________________________________________________________________
 			
 			
-			startXPosition = 	bottomLeftXPosition  +  ( (nestedWebLogo.getTargetWebLogoStartPosition()-1) * (maximumWidth/columnList.size()));
+			startXPosition = 	bottomLeftXPosition  +  ( (nestedWebLogo.getTargetWebLogo().getStartPosition()-1) * (maximumWidth/columnList.size()));
 			
-			newMaximumWidth = ( (nestedWebLogo.getTargetWebLogoEndPosition()-nestedWebLogo.getTargetWebLogoStartPosition()+1) * (maximumWidth/columnList.size()));
+			newMaximumWidth = ( (nestedWebLogo.getTargetWebLogo().getEndPosition()-nestedWebLogo.getTargetWebLogo().getStartPosition()+1) * (maximumWidth/columnList.size()));
 
 			newMaximumHeight = ((1) * (maximumHeight / numberOfWeblogoInColumn));
 			
