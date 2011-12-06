@@ -1,44 +1,30 @@
 <weblogo>
 	<start>1</start>
-	<end>22</end>
+	<end>19</end>
 	<NestedWebLogo>
-		<wildcard>ABCD</wildcard>
+		<wildcard>A+</wildcard>
 
 		<weblogo type="source">
-			<start> 2</start>
-			<end> 9</end>
-
-			<NestedWebLogo>
-				<wildcard> XYZ</wildcard>
-
-				<weblogo type="source">
-					<start> 2</start>
-					<end> 8</end>
-				</weblogo>
-				<weblogo type="target">
-					<start> 4</start>
-					<end> 9</end>
-				</weblogo>
-			</NestedWebLogo>
-
+			<start> 3</start>
+			<end> 6</end>			
 		</weblogo>
 
 		<weblogo type="target">
-			<start> 11</start>
-			<end> 19</end>
+			<start> 8</start>
+			<end> 11</end>
+		</weblogo>
+	</NestedWebLogo>
+	<NestedWebLogo>
+		<wildcard>T+</wildcard>
 
-			<NestedWebLogo>
-				<wildcard>OPMN</wildcard>
+		<weblogo type="source">
+			<start> 3</start>
+			<end> 6</end>			
+		</weblogo>
 
-				<weblogo type="source">
-					<start>2</start>
-					<end>8</end>
-				</weblogo>
-				<weblogo type="target">
-					<start>2</start>
-					<end>8</end>
-				</weblogo>
-			</NestedWebLogo>
+		<weblogo type="target">
+			<start> 8</start>
+			<end> 11</end>
 		</weblogo>
 	</NestedWebLogo>
 </weblogo>
