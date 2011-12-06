@@ -77,14 +77,23 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 	 * Inits the.
 	 */
 	public void init(){
-		test();
+//		test();
 		
-	    /*Utilities utilities = new Utilities();
+	    Utilities utilities = new Utilities();
 
 
-		WeblogoDataStructure dataStructure =  utilities.getWeblogoDS(webLogoFilePath);
+		WeblogoDataStructure dataStructure =  utilities.getWeblogoDS("nestedsample.txt");
 		mainWebLogo = dataStructure;
-		mainWebLogo.setNestedWeblogoMap(null);*/
+//		mainWebLogo.setNestedWeblogoMap(null);
+		NestedWebLogoCreator nestedWebLogoCreator = new NestedWebLogoCreator("nestedsample.txt");
+		NestedWebLogoXMLParser xmlParser = new NestedWebLogoXMLParser();
+		
+		WeblogoDataStructure webLogo = xmlParser.parseWebLogoXML();
+		mainWebLogo.setStartPosition(webLogo.getStartPosition());
+		mainWebLogo.setEndPosition(webLogo.getEndPosition());
+		mainWebLogo.setNestedWeblogoMap(webLogo.getNestedWeblogoMap());
+		
+		nestedWebLogoCreator.createWebLogo(mainWebLogo);
 		
 		/*NestedWebLogoCreator creator = new NestedWebLogoCreator(webLogoFilePath);
 		NestedWebLogoDataStructure nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "A.*");

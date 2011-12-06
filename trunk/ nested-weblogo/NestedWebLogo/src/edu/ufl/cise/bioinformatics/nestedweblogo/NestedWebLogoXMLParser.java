@@ -84,7 +84,7 @@ public class NestedWebLogoXMLParser {
 		
 	}*/
 	
-	public void parseWebLogoXML() {
+	public WeblogoDataStructure parseWebLogoXML() {
 		try {
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -111,7 +111,7 @@ public class NestedWebLogoXMLParser {
 			
 			System.out.println("webLogoInstance: "+webLogoInstance);
 			printWebLogo(webLogoInstance);
-
+			return webLogoInstance;
 		} catch (SAXParseException err) {
 			System.out.println("** Parsing error" + ", line " + err.getLineNumber() + ", uri " + err.getSystemId());
 			System.out.println(" " + err.getMessage());
@@ -123,6 +123,7 @@ public class NestedWebLogoXMLParser {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+		return null;
 	}
 	
 	public void printWebLogo(WeblogoDataStructure webLogo){

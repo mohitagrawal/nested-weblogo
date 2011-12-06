@@ -17,11 +17,6 @@ public class NestedWebLogoCreator {
 		this.filePath = filePath;
 	}
 	
-	public void createnestedWebLogo(WeblogoDataStructure webLogo){
-		
-	}
-	
-	
 	public void createWebLogo(WeblogoDataStructure webLogo){
 		if(webLogo == null){
 			return;
@@ -29,20 +24,22 @@ public class NestedWebLogoCreator {
 		System.out.println("Start: "+webLogo.getStartPosition());
 		System.out.println("End  : "+webLogo.getEndPosition());
 		Map<String, NestedWebLogoDataStructure> map = webLogo.getNestedWeblogoMap();
-		Set<String> keys = map.keySet();
-		for (String key : keys) {
-			createNestedWebLogo(map.get(key),webLogo.getSequences());
-		}
+		if(map!=null){
+			Set<String> keys = map.keySet();
+			for (String key : keys) {
+				createNestedWebLogo(map.get(key),webLogo.getSequences());
+			}
+		}		
 	}
 	
 	public void createNestedWebLogo(NestedWebLogoDataStructure nestedWebLogo,String[] sequences){
 		System.out.println("Nested web logo : wild card : "+nestedWebLogo.getWildCardPattern());
-		nestedWebLogo = getNestedLogo(nestedWebLogo, nestedWebLogo.getWildCardPattern(), sequences);
+		getNestedLogo(nestedWebLogo, nestedWebLogo.getWildCardPattern(), sequences);
 		createWebLogo(nestedWebLogo.getSourceWebLogo());
 		createWebLogo(nestedWebLogo.getTargetWebLogo());
 	}
 
-	public NestedWebLogoDataStructure getNestedLogo(NestedWebLogoDataStructure nestedWebLogo, String wildCard, String[] characterSequences) {
+	public void getNestedLogo(NestedWebLogoDataStructure nestedWebLogo, String wildCard, String[] characterSequences) {
 		WeblogoDataStructure sourceWeblogo = nestedWebLogo.getSourceWebLogo();
 		WeblogoDataStructure targetWeblogo = nestedWebLogo.getTargetWebLogo();
 		
@@ -82,6 +79,7 @@ public class NestedWebLogoCreator {
 		int i = 0;
 		inputSourceSubSequences = new String[inputSequences.length];
 		inputTargetSubSequences = new String[inputSequences.length];
+		
 		while (i < inputSequences.length) {
 			// matches input sequence with wild and then puts corresponding
 			// subsequence for source and target window
@@ -125,7 +123,7 @@ public class NestedWebLogoCreator {
 		nestedWebLogo.getTargetWebLogo().setEndPosition(targetEnd + 1);
 		nestedWebLogo.getTargetWebLogo().setStartPosition(targetStart + 1);
 		nestedWebLogo.setWildCardPattern(wildCard);
-		return nestedWebLogo;
+//		return nestedWebLogo;
 	}
 	
 	public NestedWebLogoDataStructure getNestedLogo(int sourceStart, int sourceEnd, int targetStart, int targetEnd, String wildCard, String[] characterSequences) {
@@ -228,6 +226,8 @@ public class NestedWebLogoCreator {
 			Matcher matcher = patt.matcher(s);
 			return matcher.matches();
 		} catch (RuntimeException e) {
+			System.out.println("Parsing Exception: "+e);
+			e.printStackTrace();
 			return false;
 		}
 	}
