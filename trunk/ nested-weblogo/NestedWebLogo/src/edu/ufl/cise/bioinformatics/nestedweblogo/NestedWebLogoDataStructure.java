@@ -1,8 +1,5 @@
 package edu.ufl.cise.bioinformatics.nestedweblogo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoDataStructure;
 
@@ -12,13 +9,13 @@ public class NestedWebLogoDataStructure {
 	
 	WeblogoDataStructure targetWebLogo;
 	
-	private int sourceWebLogoStartPosition;
+/*	private int sourceWebLogoStartPosition;
 	
 	private int sourceWebLogoEndPosition;
 	
 	private int targetWebLogoStartPosition;
 	
-	private int targetWebLogoEndPosition;
+	private int targetWebLogoEndPosition;*/
 	
 	
 	private String wildCardPattern;

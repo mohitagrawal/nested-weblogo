@@ -1,6 +1,8 @@
 package edu.ufl.cise.bioinformatics.nestedweblogo.datastructure;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,8 +16,119 @@ public class NestedWebLogoCreator {
 	public NestedWebLogoCreator(String filePath) {
 		this.filePath = filePath;
 	}
+	
+	public void createnestedWebLogo(WeblogoDataStructure webLogo){
+		
+	}
+	
+	
+	public void createWebLogo(WeblogoDataStructure webLogo){
+		if(webLogo == null){
+			return;
+		}
+		System.out.println("Start: "+webLogo.getStartPosition());
+		System.out.println("End  : "+webLogo.getEndPosition());
+		Map<String, NestedWebLogoDataStructure> map = webLogo.getNestedWeblogoMap();
+		Set<String> keys = map.keySet();
+		for (String key : keys) {
+			createNestedWebLogo(map.get(key),webLogo.getSequences());
+		}
+	}
+	
+	public void createNestedWebLogo(NestedWebLogoDataStructure nestedWebLogo,String[] sequences){
+		System.out.println("Nested web logo : wild card : "+nestedWebLogo.getWildCardPattern());
+		nestedWebLogo = getNestedLogo(nestedWebLogo, nestedWebLogo.getWildCardPattern(), sequences);
+		createWebLogo(nestedWebLogo.getSourceWebLogo());
+		createWebLogo(nestedWebLogo.getTargetWebLogo());
+	}
 
-	public NestedWebLogoDataStructure getNestedLogo(int sourceStart, int sourceEnd, int targetStart, int targetEnd, String wildCard) {
+	public NestedWebLogoDataStructure getNestedLogo(NestedWebLogoDataStructure nestedWebLogo, String wildCard, String[] characterSequences) {
+		WeblogoDataStructure sourceWeblogo = nestedWebLogo.getSourceWebLogo();
+		WeblogoDataStructure targetWeblogo = nestedWebLogo.getTargetWebLogo();
+		
+		int sourceStart = sourceWeblogo.getStartPosition() - 1;
+		int sourceEnd = sourceWeblogo.getEndPosition() - 1;
+		int targetEnd = targetWeblogo.getEndPosition() - 1;
+		int targetStart = targetWeblogo.getStartPosition() -1;
+
+		String[] inputSequences, inputSourceSubSequences, inputTargetSubSequences;
+
+		Utilities utili = new Utilities();
+		// String filePath = utili.getFilePath();
+		
+		if(wildCard == null || wildCard.trim().length() == 0){
+			wildCard = "*";
+		}
+
+		if(characterSequences == null){
+			inputSequences = utili.parseFasta(filePath);
+		}else{
+			inputSequences = characterSequences;
+		}		
+
+		// Exception handling
+		if (!((sourceStart < sourceEnd) && (sourceEnd < inputSequences[0].length()))) {
+			System.err.println("Invalid source start and end parameters. EXITING!!!");
+			// return null;
+		}
+		if (!((targetStart < targetEnd) && (targetStart > sourceEnd) && (targetEnd < inputSequences[0].length()))) {
+			System.err.println("Invalid target start and end parameters. EXITING!!!!");
+			// return null;
+		}
+
+		ArrayList<String> matchedSourceSubSequence = new ArrayList<String>();
+		ArrayList<String> matchedTargetSubSequence = new ArrayList<String>();
+		
+		int i = 0;
+		inputSourceSubSequences = new String[inputSequences.length];
+		inputTargetSubSequences = new String[inputSequences.length];
+		while (i < inputSequences.length) {
+			// matches input sequence with wild and then puts corresponding
+			// subsequence for source and target window
+			inputSourceSubSequences[i] = (String) inputSequences[i].subSequence(sourceStart, sourceEnd + 1);
+			inputTargetSubSequences[i] = (String) inputSequences[i].subSequence(targetStart, targetEnd + 1);
+			if (IsMatch(inputSourceSubSequences[i], wildCard)) {
+				// {plus one in end is for substring
+				matchedSourceSubSequence.add(inputSourceSubSequences[i]);
+				matchedTargetSubSequence.add(inputTargetSubSequences[i]);
+			}
+			i++;
+		}
+
+		String[] matchedSourceString = new String[matchedSourceSubSequence.size()];
+		String[] matchedTargetString = new String[matchedTargetSubSequence.size()];
+		// Converting arraylist to String[] for weblogo creation
+		i = 0;
+		while (i < matchedSourceSubSequence.size()) {
+			matchedSourceString[i] = matchedSourceSubSequence.get(i);
+			matchedTargetString[i] = matchedTargetSubSequence.get(i);
+			i++;
+		}
+
+		System.out.println(" Source Matched String");
+		printString(matchedSourceString);
+		System.out.println(" Target Matched String");
+		printString(matchedTargetString);
+
+		// crreating source and target weblogo
+
+		sourceWeblogo.calculateHeight(matchedSourceString);
+		targetWeblogo.calculateHeight(matchedTargetString);
+
+		sourceWeblogo.setSequences(matchedSourceString);
+		nestedWebLogo.setSourceWebLogo(sourceWeblogo);
+		nestedWebLogo.getSourceWebLogo().setEndPosition(sourceEnd + 1);
+		nestedWebLogo.getSourceWebLogo().setStartPosition(sourceStart + 1);
+
+		targetWeblogo.setSequences(matchedTargetString);
+		nestedWebLogo.setTargetWebLogo(targetWeblogo);
+		nestedWebLogo.getTargetWebLogo().setEndPosition(targetEnd + 1);
+		nestedWebLogo.getTargetWebLogo().setStartPosition(targetStart + 1);
+		nestedWebLogo.setWildCardPattern(wildCard);
+		return nestedWebLogo;
+	}
+	
+	public NestedWebLogoDataStructure getNestedLogo(int sourceStart, int sourceEnd, int targetStart, int targetEnd, String wildCard, String[] characterSequences) {
 		sourceStart--;
 		sourceEnd--;
 		targetEnd--;
@@ -28,7 +141,11 @@ public class NestedWebLogoCreator {
 		Utilities utili = new Utilities();
 		// String filePath = utili.getFilePath();
 
-		inputSequences = utili.parseFasta(filePath);
+		if(characterSequences == null){
+			inputSequences = utili.parseFasta(filePath);
+		}else{
+			inputSequences = characterSequences;
+		}		
 
 		// Exception handling
 		if (!((sourceStart < sourceEnd) && (sourceEnd < inputSequences[0].length()))) {
@@ -82,12 +199,12 @@ public class NestedWebLogoCreator {
 		targetWeblogo.calculateHeight(matchedTargetString);
 		NestedWebLogoDataStructure nestedWeblogo = new NestedWebLogoDataStructure();
 
-		sourceWeblogo.setSequences(matchedSourceSubSequence);
+		sourceWeblogo.setSequences(matchedSourceString);
 		nestedWeblogo.setSourceWebLogo(sourceWeblogo);
 		nestedWeblogo.getSourceWebLogo().setEndPosition(sourceEnd + 1);
 		nestedWeblogo.getSourceWebLogo().setStartPosition(sourceStart + 1);
 
-		targetWeblogo.setSequences(matchedTargetSubSequence);
+		targetWeblogo.setSequences(matchedTargetString);
 		nestedWeblogo.setTargetWebLogo(targetWeblogo);
 		nestedWeblogo.getTargetWebLogo().setEndPosition(targetEnd + 1);
 		nestedWeblogo.getTargetWebLogo().setStartPosition(targetStart + 1);
