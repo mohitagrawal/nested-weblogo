@@ -1,12 +1,10 @@
 package edu.ufl.cise.bioinformatics.nestedweblogo.datastructure;
 
-import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import edu.ufl.cise.bioinformatics.nestedweblogo.LogoBoundry;
 import edu.ufl.cise.bioinformatics.nestedweblogo.NestedWebLogoDataStructure;
@@ -24,7 +22,7 @@ public class WeblogoDataStructure {
 
 	private LinkedHashMap<String, Double> frequencyTable;
 	
-	private ArrayList<String> sequences;
+	private String[] sequences;
 
 	private SequenceType sequenceType = SequenceType.DNA;
 	
@@ -222,16 +220,6 @@ public class WeblogoDataStructure {
 		Utilities utility = new Utilities();
 		utility.getWeblogoDS(utility.getFilePath()).printHeightTable();
 	}
-
-
-	public ArrayList<String> getSequences() {
-		return sequences;
-	}
-
-
-	public void setSequences(ArrayList<String> sequences) {
-		this.sequences = sequences;
-	}
 	
 	public void clearNestedWebLogoMap(){
 		
@@ -255,7 +243,6 @@ public class WeblogoDataStructure {
 		this.nestedWeblogoMap = nestedWeblogoMap;
 	}
 
-
 	public LogoBoundry getLogoBoundry() {
 		return logoBoundry;
 	}
@@ -264,23 +251,27 @@ public class WeblogoDataStructure {
 		this.logoBoundry = logoBoundry;
 	}
 
-
 	public int getStartPosition() {
 		return startPosition;
 	}
-
 
 	public void setStartPosition(int startPosition) {
 		this.startPosition = startPosition;
 	}
 
-
 	public int getEndPosition() {
 		return endPosition;
 	}
 
-
 	public void setEndPosition(int endPosition) {
 		this.endPosition = endPosition;
-	}	
+	}
+
+	public String[] getSequences() {
+		return sequences;
+	}
+
+	public void setSequences(String[] sequences) {
+		this.sequences = sequences;
+	}
 }

@@ -9,7 +9,7 @@ public class TestNestedWeblogo
 	{
 		NestedWebLogoDataStructure nestedlogo = new NestedWebLogoDataStructure();
 		NestedWebLogoCreator createnested = new NestedWebLogoCreator(new Utilities().getFilePath());
-		nestedlogo = createnested.getNestedLogo(2, 4, 5, 7, "T.*");
+//		nestedlogo = createnested.getNestedLogo(2, 4, 5, 7, "T.*");
 		System.out.println("temp");
 	}	
 }
