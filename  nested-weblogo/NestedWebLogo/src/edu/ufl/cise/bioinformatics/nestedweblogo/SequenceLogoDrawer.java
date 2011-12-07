@@ -4,11 +4,14 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import com.sun.image.codec.jpeg.*; 
+
 import java.awt.Label;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -18,6 +21,10 @@ import java.awt.event.MouseWheelListener;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 //import java.util.TreeMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -38,13 +46,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.NestedWebLogoCreator;
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoColumn;
 import edu.ufl.cise.bioinformatics.nestedweblogo.datastructure.WeblogoDataStructure;
+import edu.ufl.cise.bioinformatics.nestedweblogo.utils.SequenceType;
 import edu.ufl.cise.bioinformatics.nestedweblogo.utils.Utilities;
 
 public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, ActionListener {
 	
 	private String webLogoFilePath = "C:\\Users\\sagar\\MyStudy\\BioInformatics\\nestedsample.txt";
 	
-	
+	private SequenceType sequenceType = SequenceType.PROTEIN;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -94,6 +103,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		mainWebLogo.setNestedWeblogoMap(webLogo.getNestedWeblogoMap());
 		
 		nestedWebLogoCreator.createWebLogo(mainWebLogo);
+		
 		
 		/*NestedWebLogoCreator creator = new NestedWebLogoCreator(webLogoFilePath);
 		NestedWebLogoDataStructure nestedLogo =  creator.getNestedLogo(2, 4, 5, 7, "A.*");
@@ -244,7 +254,8 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		drawYAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition, topLeftXPosition, topLeftYPosition, true);
 		
 		drawXAxis(graphics2DObject, bottomLeftXPosition, bottomLeftYPosition , bottomRightXPosition , bottomRightYPosition , maximumAvailableWidth/mainWebLogo.getColumnList().size());
-								
+
+		
 	}
 	
 	public void recurssivelyDrawWebLogo(Graphics2D graphics2DObject, WeblogoDataStructure webLogo, float bottomLeftXPosition, float bottomLeftYPosition, float maximumAvailableWidth, float maximumAvailableHeight, boolean heatMap){
@@ -595,21 +606,45 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		}		
 		
 		graphics2DObject.setColor(Color.BLACK);
-		
-		if(ch.equals("A")){
-			graphics2DObject.setColor(Color.GREEN);	
+		if(sequenceType == SequenceType.DNA)
+		{
+			if(ch.equals("A")){
+				graphics2DObject.setColor(Color.GREEN);	
+			}
+			
+			if((ch.equals("T")) || (ch.equals("U"))){
+				graphics2DObject.setColor(Color.RED);	
+			}
+			
+			if(ch.equals("G")){
+				graphics2DObject.setColor(Color.YELLOW);	
+			}
+			
+			if(ch.equals("C")){
+				graphics2DObject.setColor(Color.BLUE);
+			}
 		}
-		
-		if(ch.equals("T")){
-			graphics2DObject.setColor(Color.RED);	
-		}
-		
-		if(ch.equals("G")){
-			graphics2DObject.setColor(Color.YELLOW);	
-		}
-		
-		if(ch.equals("C")){
-			graphics2DObject.setColor(Color.BLUE);
+		else
+		{
+			if((ch.equals("A") || ch.equals("V") || ch.equals("L")||ch.equals("I")||ch.equals("P")||ch.equals("W")||ch.equals("F")||ch.equals("M"))){
+				graphics2DObject.setColor(Color.BLACK);	
+			}
+			
+			if((ch.equals("D")) || (ch.equals("E"))){
+				graphics2DObject.setColor(Color.RED);	
+			}
+			
+			if((ch.equals("G"))||(ch.equals("S"))||(ch.equals("T"))||(ch.equals("Y"))||(ch.equals("C"))){
+				graphics2DObject.setColor(Color.GREEN);	
+			}
+			
+			if((ch.equals("K"))||(ch.equals("R"))||(ch.equals("H"))){
+				graphics2DObject.setColor(Color.BLUE);
+			}
+			
+			if((ch.equals("Q"))||(ch.equals("N"))){
+				graphics2DObject.setColor(new Color(255, 0, 255)); //Purple
+			}
 		}
 		
 		graphics2DObject.drawString(attributeString.getIterator(), bottomLeftXPosition, bottomLeftYPosition);
@@ -737,7 +772,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		
 		
 		JFrame frame = new JFrame("Nested Web Logo");
-		
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		SequenceLogoDrawer charTest = new SequenceLogoDrawer();
 		charTest.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 36));
 		Font font = charTest.getFont(); 
@@ -756,7 +791,7 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 //		frame.add(charTest,BorderLayout.CENTER);
 		frame.add(pane,BorderLayout.CENTER);
 		
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		frame.setSize(new Dimension(600, 400));
 		frame.setLocationRelativeTo(null);
@@ -792,16 +827,43 @@ public class SequenceLogoDrawer extends JPanel implements MouseWheelListener, Ac
 		menu = new JMenu("Help");
 		menuBar.add(menu);
 		
+		menu = new JMenu("Export");
+		menuBar.add(menu);
+		
+		item = new JMenuItem("Export As JPEG");
+		item.addActionListener(charTest);
+		menu.add(item);
+		
 		item = new JMenuItem("About");
 		item.addActionListener(charTest);
 		menu.add(item);
-
+		
+		
+		
+		
 		// Install the menu bar in the frame
 		frame.setJMenuBar(menuBar);
+		saveComponentAsJPEG(frame,"c://test//filename.jpg");
 		
 //		frame.
 	}
-
+    public static void saveComponentAsJPEG(Component myComponent, String filename) {
+        Dimension size = myComponent.getSize();
+        BufferedImage myImage = 
+          new BufferedImage(size.width, size.height,
+          BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = myImage.createGraphics();
+        myComponent.paint(g2);
+        try {
+          OutputStream out = new FileOutputStream(filename);
+          JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+          encoder.encode(myImage);
+          out.close();
+        } catch (Exception e) {
+          System.out.println(e); 
+        }
+      } 
+	
 	public void getFastaFilePathFromInputBox(){
 		JFileChooser chooser = new JFileChooser();
 	    FileNameExtensionFilter filter = new FileNameExtensionFilter(
