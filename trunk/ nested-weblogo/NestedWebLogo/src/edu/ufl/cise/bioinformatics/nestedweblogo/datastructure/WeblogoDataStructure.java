@@ -111,11 +111,15 @@ public class WeblogoDataStructure {
 			s = 4;
 		else
 			s = 20;
-		//calculate error factor
-		//double errorFactor;
 		
-
-
+		if(sequence.length < 1)
+		{
+			System.err.println(" Calculate Height : No input sequences");
+			return;
+		}
+			
+		//calculate error factor
+		//double errorFactor;		
 		for(int i = 0;i< sequence[0].length();i++)
 		{
 			LinkedHashMap<String, Double> tempMap= new LinkedHashMap<String, Double>();
@@ -144,11 +148,11 @@ public class WeblogoDataStructure {
 			s = 4;
 		else
 			s = 20;
-		System.out.println(" s : "+s);
+//		System.out.println(" s : "+s);
 		Double sum = 0.0;
 		Double errorFactor = 0.0; 
 		errorFactor = (s -1)/((2*Math.log(2))*numOfSequences);
-		System.out.println("Error Factor - "+errorFactor);
+		//System.out.println("Error Factor - "+errorFactor);
 
 		Iterator mapIter = frequencyTable.keySet().iterator();
 		//System.out.println("Size of frequency table - "+frequencyTable.size());
